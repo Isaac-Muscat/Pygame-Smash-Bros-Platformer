@@ -1,13 +1,17 @@
+from physics.rigidbody import Rigidbody
 import pygame
 
-class Player(object):
-    def __init__(self, screen, pos, size):
+class Player(Rigidbody):
+    def __init__(self, screen, x, y, size, mass):
+        super().__init__(x, y, mass)
+
         self.screen = screen
         self.screen_size = screen.get_size()
-        self.pos = pos
+
         self.size = size
         self.collider = self.create_collider()
-        self.velocity = 0
+
+        self.sprite = 'sprite path stuff'
 
     def create_collider(self):
         return 0
