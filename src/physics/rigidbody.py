@@ -1,5 +1,5 @@
-import src.physics.vector2 as vec
-from src.physics.vector2 import Vector2
+import vector2 as vec
+from vector2 import Vector2
 
 class Rigidbody(object):
     def __init__(self, x, y, mass):
@@ -8,7 +8,7 @@ class Rigidbody(object):
         self.velocity = Vector2(0, 0)
         self.acceleration = Vector2(0, 0)
 
-    def apply_force(self, force):
+    def add_force(self, force):
         self.acceleration.add(vec.divide(force, self.mass))
 
     def update(self):

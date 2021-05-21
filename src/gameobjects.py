@@ -1,5 +1,5 @@
 from physics.rigidbody import Rigidbody
-import pygame
+
 
 class Player(Rigidbody):
     def __init__(self, x, y, size, mass):
@@ -13,7 +13,7 @@ class Player(Rigidbody):
     def create_collider(self):
         return 0
 
-    def draw(self):
+    def draw(self, screen):
         pass
 
     def update(self):

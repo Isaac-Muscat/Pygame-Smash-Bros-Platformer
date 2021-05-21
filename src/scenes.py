@@ -2,9 +2,9 @@ import random
 
 import pygame
 
-from src import settings as s
-from src.gameobjects import Player
-from src.physics.collider2 import CircleCollider2, BoxCollider2
+import settings as s
+from gameobjects import Player
+from physics.collider2 import CircleCollider2, BoxCollider2
 
 
 class Scene(object):
@@ -25,6 +25,7 @@ class Scene(object):
 
     def terminate(self):
         self.switch_to_scene(None)
+
 
 class MainMenu(Scene):
     def __init__(self):
