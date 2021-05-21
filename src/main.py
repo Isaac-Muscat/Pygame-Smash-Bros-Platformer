@@ -1,60 +1,46 @@
 
 #Packages, Libraries, and Modules
-from physics.collider2 import BoxCollider2
-from physics.collider2 import CircleCollider2
-from player import Player
-
-import random
-
+from scenes import GameScene, MainMenu
+import settings as s
 import pygame
 pygame.init()
 
-#Variables
-screen_size = (800, 600)
-
-BLACK = (0, 0, 0)
-WHITE = (255, 255, 255)
-BLUE = (0, 0, 255)
-RED = (255, 0, 0)
-GREEN = (0, 255, 0)
-
-DEBUG = True
-run = True
-
-
-
 #SETUP
-screen = pygame.display.set_mode(screen_size)
+screen = pygame.display.set_mode(s.screen_size)
 pygame.display.set_caption("Duper Crash Bros")
 clock = pygame.time.Clock()
-
-circle = CircleCollider2(random.randint(0, screen_size[0]), random.randint(0, screen_size[1]),10)
-x, y = pygame.mouse.get_pos()
-box = BoxCollider2(x, y, x+50, y+50)
-player = Player(screen, 100, 100, 10, 10)
-
+active_scene = GameScene()
 
 #UPDATE - Main Loop
-while run:
-    #Events
+while active_scene!=None:
+    pressed_keys = pygame.key.get_pressed()
+
+    # Event filtering
+    filtered_events = []
     for event in pygame.event.get():
+        quit_attempt = False
         if event.type == pygame.QUIT:
-            run = False
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            print(box.collider_has_collided(circle))
+            quit_attempt = True
+        elif event.type == pygame.KEYDOWN:
+            alt_pressed = pressed_keys[pygame.K_LALT] or \
+                          pressed_keys[pygame.K_RALT]
+            if event.key == pygame.K_ESCAPE:
+                quit_attempt = True
+            elif event.key == pygame.K_F4 and alt_pressed:
+                quit_attempt = True
 
-    #Logic
-    x, y = pygame.mouse.get_pos()
-    box.set_position(x, y)
+        if quit_attempt:
+            active_scene.terminate()
+        else:
+            filtered_events.append(event)
 
-    #Drawing
-    screen.fill(WHITE)
-    circle.draw_collider(screen, BLACK)
-    box.draw_collider(screen, GREEN)
+    active_scene.process_input(filtered_events, pressed_keys)
+    active_scene.update()
+    active_scene.display(screen)
 
+    active_scene = active_scene.next
 
-    #Finally
-    clock.tick(60)
     pygame.display.flip()
+    clock.tick(60)
 
 pygame.quit()
