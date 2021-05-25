@@ -1,4 +1,3 @@
-
 #Packages, Libraries, and Modules
 from scenes import GameScene, MainMenu
 import settings as s
@@ -9,7 +8,7 @@ pygame.init()
 screen = pygame.display.set_mode(s.screen_size)
 pygame.display.set_caption("Duper Crash Bros")
 clock = pygame.time.Clock()
-active_scene = GameScene()
+active_scene = MainMenu()
 
 #UPDATE - Main Loop
 while active_scene!=None:

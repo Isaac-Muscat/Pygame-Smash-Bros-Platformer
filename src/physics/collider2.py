@@ -119,3 +119,4 @@ class CircleCollider2(Collider2):
 
     def draw_collider(self, screen, color):
         pygame.draw.circle(screen, color, (self.p1.x, self.p1.y), self.radius)
+
