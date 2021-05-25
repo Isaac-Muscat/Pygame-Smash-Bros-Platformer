@@ -1,5 +1,5 @@
-import vector2 as vec
-from vector2 import Vector2
+import src.physics.vector2 as vec
+from src.physics.vector2 import Vector2
 
 class Rigidbody(object):
     def __init__(self, x, y, mass):

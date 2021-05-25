@@ -30,15 +30,14 @@ class Scene(object):
 class MainMenu(Scene):
     def __init__(self):
         super().__init__()
-        self.box1 = BoxCollider2(480, 50, 680, 100)
-        self.player = Player(100, 100, 10, 10)
+        self.box1 = BoxCollider2(440, 50, 720, 100).set_active(False)
         self.box2 = BoxCollider2(520, 200, 590, 250)
 
     def process_input(self, events, pressed_keys):
         x, y = pygame.mouse.get_pos()
         for event in events:
             if event.type == pygame.MOUSEBUTTONDOWN:
-                if 520 < x < 590 and 200 < y < 250:
+                if self.box2.point_has_collided(x, y):
                     self.switch_to_scene(CharacterSelect())
 
     def update(self):
@@ -51,9 +50,11 @@ class MainMenu(Scene):
         pygame.font.init()
         font = pygame.font.SysFont("Arial", 30)
         title = font.render("Duper Crash Bros", False, (0, 0, 0))
-        screen.blit(title, (480, 50))
+        center = title.get_rect(center=(self.box1.center.x, self.box1.center.y))
+        screen.blit(title, center)
         start = font.render("Start", False, (0, 0, 0))
-        screen.blit(start, (520, 200))
+        center = start.get_rect(center=(self.box2.center.x, self.box2.center.y))
+        screen.blit(start, center)
 
 
 class CharacterSelect(Scene):
@@ -65,7 +66,7 @@ class CharacterSelect(Scene):
         x, y = pygame.mouse.get_pos()
         for event in events:
             if event.type == pygame.MOUSEBUTTONDOWN:
-                if 480 < x < 700 and 650 < y < 700:
+                if self.box1.point_has_collided(x, y):
                     self.switch_to_scene(GameScene())
 
     def update(self):
@@ -74,30 +75,27 @@ class CharacterSelect(Scene):
     def display(self, screen):
         screen.fill(s.PURPLE)
         self.box1.draw_collider(screen, s.WHITE)
-        pygame.font.init
+        pygame.font.init()
         font = pygame.font.SysFont("Arial", 30)
         start = font.render("Start", False, (0, 0, 0))
-        screen.blit(start, (600, 650))
+        center = start.get_rect(center=(self.box1.center.x, self.box1.center.y))
+        screen.blit(start, center)
 
 
 class GameScene(Scene):
     def __init__(self):
         super().__init__()
-        self.circle = CircleCollider2(random.randint(0, s.screen_size[0]), random.randint(0, s.screen_size[1]), 10)
-        x, y = pygame.mouse.get_pos()
-        self.box = BoxCollider2(x, y, x + 50, y + 50)
         self.player = Player(100, 100, 10, 10)
         self.floor = BoxCollider2(0, 720, 1280, 600)
-        self.sun = CircleCollider2(0, 0, 100)
+        self.sun = CircleCollider2(0, 0, 100).set_active(False)
 
     def process_input(self, events, pressed_keys):
         for event in events:
             if event.type == pygame.MOUSEBUTTONDOWN:
-                print(self.box.collider_has_collided(self.circle))
+                pass
 
     def update(self):
-        x, y = pygame.mouse.get_pos()
-        self.box.set_position(x, y)
+        pass
 
     def display(self, screen):
         screen.fill(s.SKYBLUE)

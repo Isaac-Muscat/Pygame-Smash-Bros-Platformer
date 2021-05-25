@@ -1,5 +1,5 @@
-from vector2 import Vector2
-import vector2 as vec
+from src.physics.vector2 import Vector2
+import src.physics.vector2 as vec
 import pygame
 
 class Collider2(object):
@@ -14,6 +14,9 @@ class Collider2(object):
 
     def circle_collider_has_collided(self, collider):
         return False
+    def set_active(self, bool=True):
+        self.active = bool
+        return self
 
 class BoxCollider2(Collider2):
     def __init__(self, x1, y1, x2, y2):
