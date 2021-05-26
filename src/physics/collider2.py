@@ -5,7 +5,7 @@ import pygame
 class Collider2(object):
     def collider_has_collided(self, collider):
         if type(collider) is BoxCollider2:
-            return self.box_collider_has_collided(collider)
+            return self.box_collider_has_collided(collider) or collider.box_collider_has_collided(self)
         if type(collider) is CircleCollider2:
             return self.circle_collider_has_collided(collider)
 
@@ -51,17 +51,17 @@ class BoxCollider2(Collider2):
         self.set_pos_values()
 
     def vector_point_has_collided(self, v1):
-        if self.p1.x < v1.x < self.p2.x and self.p1.y < v1.y < self.p2.y and self.active:
+        if self.p1.x <= v1.x <= self.p2.x and self.p1.y <= v1.y <= self.p2.y and self.active:
             return True
         return False
 
     def point_has_collided(self, x, y):
-        if self.p1.x < x < self.p2.x and self.p1.y < y < self.p2.y and self.active:
+        if self.p1.x <= x <= self.p2.x and self.p1.y <= y <= self.p2.y and self.active:
             return True
         return False
 
     def box_collider_has_collided(self, collider):
-        if self.vector_has_collided(collider.p1) or self.vector_has_collided(collider.p2)\
+        if self.vector_point_has_collided(collider.p1) or self.vector_point_has_collided(collider.p2)\
                 or self.point_has_collided(collider.p1.x, collider.p2.y) or self.point_has_collided(collider.p2.x, collider.p1.y)\
                 and self.active and collider.active:
             return True
@@ -100,7 +100,7 @@ class CircleCollider2(Collider2):
 
     def circle_collider_has_collided(self, collider):
         distance_squared = vec.dist_no_sqrt(self.p1, collider.p1)
-        return distance_squared < self.radius**2 and distance_squared < collider.radius
+        return distance_squared <= self.radius**2 and distance_squared <= collider.radius
 
     def box_collider_has_collided(self, collider):
         dx = abs(self.p1.x - collider.center.x);

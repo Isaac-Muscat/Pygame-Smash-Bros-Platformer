@@ -26,6 +26,13 @@ class Vector2(object):
             print("Dividing by zero in physics.vector2.Vector2.divide.")
         return Exception
 
+def clamp_vector(vector, max_x, min_x, max_y, min_y):
+    vector.x = clamp(vector.x, min_x, max_x)
+    vector.y = clamp(vector.y, min_y, max_y)
+
+def clamp(num, min_value, max_value):
+   return max(min(num, max_value), min_value)
+
 #OPTIMIZATION - sqrt is expensive
 def dist_no_sqrt(v1, v2):
     return (v1.x-v2.x)**2+(v1.y-v2.y)**2
@@ -56,3 +63,4 @@ def normalize(v1):
     if v1.magnitude != 0:
         return Vector2(v1.x/v1.magnitude, v1.y/v1.magnitude)
     return 0
+

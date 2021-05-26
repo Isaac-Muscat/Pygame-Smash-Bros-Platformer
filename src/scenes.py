@@ -3,8 +3,9 @@ import random
 import pygame
 
 import settings as s
-from gameobjects import Player
+from gameobjects import Player, Ground
 from physics.collider2 import CircleCollider2, BoxCollider2
+import physics.vector2 as vec
 
 
 class Scene(object):
@@ -14,7 +15,7 @@ class Scene(object):
     def process_input(self, events, pressed_keys):
         print("You didn't override this in the child class.")
 
-    def update(self):
+    def update(self, clock):
         print("You didn't override this in the child class.")
 
     def display(self, screen):
@@ -40,7 +41,7 @@ class MainMenu(Scene):
                 if self.box2.point_has_collided(x, y):
                     self.switch_to_scene(CharacterSelect())
 
-    def update(self):
+    def update(self, clock):
         pass
 
     def display(self, screen):
@@ -69,7 +70,7 @@ class CharacterSelect(Scene):
                 if self.box1.point_has_collided(x, y):
                     self.switch_to_scene(GameScene())
 
-    def update(self):
+    def update(self, clock):
         pass
 
     def display(self, screen):
@@ -85,19 +86,48 @@ class CharacterSelect(Scene):
 class GameScene(Scene):
     def __init__(self):
         super().__init__()
-        self.player = Player(100, 100, 10, 10)
-        self.floor = BoxCollider2(0, 720, 1280, 600)
+        self.player = Player()
+        self.floor = Ground(s.s_s[0] * 0.2, s.s_s[1] * 0.75, s.s_s[0] * 0.80, s.s_s[1] * 0.7)
+
+        #BACKGROUND
+        self.pillar = BoxCollider2(s.s_s[0] * 0.3, s.s_s[1] * 0.7, s.s_s[0] * 0.7, s.s_s[1]+200).set_active(False)
         self.sun = CircleCollider2(0, 0, 100).set_active(False)
 
-    def process_input(self, events, pressed_keys):
+    def process_input(self, events, keys):
         for event in events:
             if event.type == pygame.MOUSEBUTTONDOWN:
-                pass
+                x, y = pygame.mouse.get_pos()
 
-    def update(self):
-        pass
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_w and self.player.jumps_left>1 and self.player.frames_in_tumble==0:
+                    self.player.jumps_left -= 1
+                    self.player.velocity.y = 0
+                    self.player.add_force(self.player.jump_force)
+        if keys[pygame.K_a]:
+            #self.player.add_force(vec.multiply(self.player.run_force, -1))
+            self.player.velocity.x = -self.player.run_force.x
+        elif keys[pygame.K_d]:
+            #self.player.add_force(self.player.run_force)
+            self.player.velocity.x = self.player.run_force.x
+        else:
+            self.player.velocity.x = 0
+
+
+    def update(self, clock):
+        if self.floor.player_collided_from_top(self.player):
+            self.player.jumps_left = self.player.jumps
+            self.player.velocity.y = 0
+            self.player.position.y = self.floor.p1.y-self.player.collider.height
+
+        else:
+            self.player.add_force(self.player.gravity)
+        self.player.update(clock)
+
 
     def display(self, screen):
         screen.fill(s.SKYBLUE)
-        self.floor.draw_collider(screen, s.GREEN)
         self.sun.draw_collider(screen, s.YELLOW)
+        self.pillar.draw_collider(screen, s.GREY)
+
+        self.floor.draw_collider(screen, s.GREEN)
+        self.player.draw(screen)

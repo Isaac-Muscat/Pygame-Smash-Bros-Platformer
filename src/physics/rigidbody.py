@@ -11,7 +11,10 @@ class Rigidbody(object):
     def add_force(self, force):
         self.acceleration.add(vec.divide(force, self.mass))
 
-    def update(self):
+    def reset_velocity(self):
+        self.velocity.x = self.velocity.y = 0
+
+    def update(self, clock):
         self.velocity.add(self.acceleration)
-        self.position.add(self.velocity)
+        self.position.add(vec.multiply(self.velocity, clock.get_time()))
         self.acceleration.multiply(0)

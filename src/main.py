@@ -5,10 +5,10 @@ import pygame
 pygame.init()
 
 #SETUP
-screen = pygame.display.set_mode(s.screen_size)
+screen = pygame.display.set_mode(s.s_s)
 pygame.display.set_caption("Duper Crash Bros")
 clock = pygame.time.Clock()
-active_scene = MainMenu()
+active_scene = GameScene()
 
 #UPDATE - Main Loop
 while active_scene!=None:
@@ -34,7 +34,7 @@ while active_scene!=None:
             filtered_events.append(event)
 
     active_scene.process_input(filtered_events, pressed_keys)
-    active_scene.update()
+    active_scene.update(clock)
     active_scene.display(screen)
 
     active_scene = active_scene.next
