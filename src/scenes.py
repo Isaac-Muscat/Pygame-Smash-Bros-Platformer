@@ -90,7 +90,7 @@ class GameScene(Scene):
         self.floor = Ground(s.s_s[0] * 0.2, s.s_s[1] * 0.75, s.s_s[0] * 0.80, s.s_s[1] * 0.7)
 
         #BACKGROUND
-        self.pillar = BoxCollider2(s.s_s[0] * 0.3, s.s_s[1] * 0.7, s.s_s[0] * 0.7, s.s_s[1]+200).set_active(False)
+        self.pillar = BoxCollider2(s.s_s[0] * 0.21, s.s_s[1] * 0.7, s.s_s[0] * 0.79, s.s_s[1]+200).set_active(False)
         self.sun = CircleCollider2(0, 0, 100).set_active(False)
 
     def process_input(self, events, keys):
@@ -103,14 +103,16 @@ class GameScene(Scene):
                     self.player.jumps_left -= 1
                     self.player.velocity.y = 0
                     self.player.add_force(self.player.jump_force)
+                if event.key == pygame.K_s and self.player.frames_in_tumble==0 and self.player.velocity.y<0:
+                    self.player.velocity.y = 0
+                    self.player.add_force(vec.multiply(self.player.jump_force, -0.5))
+
         if keys[pygame.K_a]:
-            #self.player.add_force(vec.multiply(self.player.run_force, -1))
-            self.player.velocity.x = -self.player.run_force.x
+            self.player.add_force(vec.multiply(self.player.run_force, -1))
+            #self.player.velocity.x = -self.player.run_force.x
         elif keys[pygame.K_d]:
-            #self.player.add_force(self.player.run_force)
-            self.player.velocity.x = self.player.run_force.x
-        else:
-            self.player.velocity.x = 0
+            self.player.add_force(self.player.run_force)
+            #self.player.velocity.x = self.player.run_force.x
 
 
     def update(self, clock):

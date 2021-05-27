@@ -7,7 +7,7 @@ from physics.vector2 import Vector2
 class Player(Rigidbody):
     def __init__(self, x=s.s_s[0] / 2, y=100, width=25, height=50, mass=10,
                  jumps=4, max_fall_vel=20, max_run_vel=7,
-                 gravity=Vector2(0, 0.2), jump_force=Vector2(0, -7), run_force=Vector2(0.3, 0)):
+                 gravity=Vector2(0, 0.4), jump_force=Vector2(0, -12), run_force=Vector2(0.25, 0)):
         super().__init__(x, y, mass)
 
         self.jumps = jumps
@@ -28,8 +28,20 @@ class Player(Rigidbody):
         self.collider.draw_collider(screen, s.RED)
 
     def update(self, clock):
+        # Apply drag force
+        if self.velocity.x !=0 or self.velocity.y != 0:
+            speed = self.velocity.mag()
+            drag = speed * speed * 0.03 * clock.get_time()
+            direction = vec.multiply(self.velocity, -1)
+            direction.normalize()
+            self.add_force(vec.multiply(direction, drag))
         super().update(clock)
+
+
+        #Update collider position
         self.collider.set_position(self.position.x, self.position.y)
+
+        #Update tumble/stun duration
         if self.frames_in_tumble > 0:
             self.frames_in_tumble-=1
 

@@ -40,6 +40,6 @@ while active_scene!=None:
     active_scene = active_scene.next
 
     pygame.display.flip()
-    clock.tick(60)
+    clock.tick(s.FPS)
 
 pygame.quit()

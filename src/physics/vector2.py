@@ -4,7 +4,9 @@ class Vector2(object):
     def __init__(self, x, y) -> object:
         self.x = x
         self.y = y
-        self.magnitude = math.sqrt(self.x**2+self.y**2)
+
+    def mag(self):
+        return math.sqrt(self.x**2+self.y**2)
 
     def add(self, v2):
         self.x += v2.x
@@ -25,6 +27,11 @@ class Vector2(object):
         else:
             print("Dividing by zero in physics.vector2.Vector2.divide.")
         return Exception
+
+    def normalize(self):
+        mag = self.mag()
+        self.x /=mag
+        self.y/=mag
 
 def clamp_vector(vector, max_x, min_x, max_y, min_y):
     vector.x = clamp(vector.x, min_x, max_x)

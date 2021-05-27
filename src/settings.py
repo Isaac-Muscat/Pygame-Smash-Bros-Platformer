@@ -1,6 +1,7 @@
 
 #Variables
 DEBUG = True
+FPS = 60
 
 #screen size
 s_s = (1280, 720)
