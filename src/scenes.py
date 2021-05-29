@@ -1,9 +1,8 @@
-import random
-
 import pygame
 
 import settings as s
-from gameobjects import Player, Ground
+from gameobjects.obstacles import platform, wall
+from src.gameobjects.players.player import Player
 from physics.collider2 import CircleCollider2, BoxCollider2
 import physics.vector2 as vec
 
@@ -84,52 +83,52 @@ class CharacterSelect(Scene):
 
 
 class GameScene(Scene):
+    # TODO Must add a list of players and make more childs of player instead of hardcoding player stuff in scene
     def __init__(self):
         super().__init__()
+        # self.players = [Player()]
         self.player = Player()
-        self.floor = Ground(s.s_s[0] * 0.2, s.s_s[1] * 0.75, s.s_s[0] * 0.80, s.s_s[1] * 0.7)
 
-        #BACKGROUND
-        self.pillar = BoxCollider2(s.s_s[0] * 0.21, s.s_s[1] * 0.7, s.s_s[0] * 0.79, s.s_s[1]+200).set_active(False)
+        self.floor = platform.Platform(s.s_s[0] * 0.25, s.s_s[1] * 0.75, s.s_s[0] * 0.75, s.s_s[1] * 0.7)
+        self.pillar = wall.Wall(s.s_s[0] * 0.26, s.s_s[1] * 0.7, s.s_s[0] * 0.74, s.s_s[1] + 200)
+
+        # BACKGROUND
         self.sun = CircleCollider2(0, 0, 100).set_active(False)
 
     def process_input(self, events, keys):
         for event in events:
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                x, y = pygame.mouse.get_pos()
-
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_w and self.player.jumps_left>1 and self.player.frames_in_tumble==0:
+                if event.key == pygame.K_w and self.player.jumps_left > 1 and self.player.frames_in_tumble == 0:
                     self.player.jumps_left -= 1
                     self.player.velocity.y = 0
                     self.player.add_force(self.player.jump_force)
-                if event.key == pygame.K_s and self.player.frames_in_tumble==0 and self.player.velocity.y<0:
+                if event.key == pygame.K_s and self.player.frames_in_tumble == 0 and self.player.velocity.y < 0:
                     self.player.velocity.y = 0
                     self.player.add_force(vec.multiply(self.player.jump_force, -0.5))
 
-        if keys[pygame.K_a]:
+        if keys[pygame.K_a] and self.player.velocity.x > -self.player.max_runspeed and self.player.frames_in_tumble == 0:
             self.player.add_force(vec.multiply(self.player.run_force, -1))
-            #self.player.velocity.x = -self.player.run_force.x
-        elif keys[pygame.K_d]:
+            # self.player.velocity.x = -self.player.run_force.x
+        if keys[pygame.K_d] and self.player.velocity.x < self.player.max_runspeed and self.player.frames_in_tumble == 0:
             self.player.add_force(self.player.run_force)
-            #self.player.velocity.x = self.player.run_force.x
+            # self.player.velocity.x = self.player.run_force.x
 
-
-    def update(self, clock):
+    def update(self, time):
         if self.floor.player_collided_from_top(self.player):
             self.player.jumps_left = self.player.jumps
             self.player.velocity.y = 0
-            self.player.position.y = self.floor.p1.y-self.player.collider.height
+            self.player.position.y = self.floor.p1.y - self.player.collider.height
 
         else:
-            self.player.add_force(self.player.gravity)
-        self.player.update(clock)
+            self.player.add_gravity(self.player.gravity_coef)
 
+        self.player.add_friction(self.player.friction_coef)
+        self.player.add_drag(self.player.drag_coef)
+        self.player.update(time)
 
     def display(self, screen):
         screen.fill(s.SKYBLUE)
         self.sun.draw_collider(screen, s.YELLOW)
         self.pillar.draw_collider(screen, s.GREY)
-
         self.floor.draw_collider(screen, s.GREEN)
         self.player.draw(screen)

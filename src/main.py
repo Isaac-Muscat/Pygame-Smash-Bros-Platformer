@@ -1,17 +1,19 @@
-#Packages, Libraries, and Modules
-from scenes import GameScene, MainMenu
+# Packages, Libraries, and Modules
+from scenes import GameScene
 import settings as s
 import pygame
+
 pygame.init()
 
-#SETUP
+# SETUP
 screen = pygame.display.set_mode(s.s_s)
 pygame.display.set_caption("Duper Crash Bros")
 clock = pygame.time.Clock()
+time = clock.tick(s.FPS)
 active_scene = GameScene()
 
-#UPDATE - Main Loop
-while active_scene!=None:
+# UPDATE - Main Loop
+while active_scene is not None:
     pressed_keys = pygame.key.get_pressed()
 
     # Event filtering
@@ -34,12 +36,12 @@ while active_scene!=None:
             filtered_events.append(event)
 
     active_scene.process_input(filtered_events, pressed_keys)
-    active_scene.update(clock)
+    active_scene.update(time)
     active_scene.display(screen)
 
     active_scene = active_scene.next
 
     pygame.display.flip()
-    clock.tick(s.FPS)
+    time = clock.tick(s.FPS)
 
 pygame.quit()

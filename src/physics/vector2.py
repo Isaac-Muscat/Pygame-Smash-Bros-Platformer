@@ -1,7 +1,7 @@
 import math
 
 class Vector2(object):
-    def __init__(self, x, y) -> object:
+    def __init__(self, x=0, y=0) -> object:
         self.x = x
         self.y = y
 
@@ -21,17 +21,20 @@ class Vector2(object):
         self.y *= s1
 
     def divide(self, s1):
-        if s1!=0:
-            self.x /=s1
-            self.y /=s1
-        else:
-            print("Dividing by zero in physics.vector2.Vector2.divide.")
-        return Exception
+        self.x /=s1
+        self.y /=s1
 
     def normalize(self):
         mag = self.mag()
-        self.x /=mag
-        self.y/=mag
+        if mag > 0:
+            self.divide(mag)
+
+    def set(self, v):
+        self.x = v.x
+        self.y = v.y
+
+    def clone(self):
+        return Vector2(self.x, self.y)
 
 def clamp_vector(vector, max_x, min_x, max_y, min_y):
     vector.x = clamp(vector.x, min_x, max_x)
@@ -53,21 +56,14 @@ def add(v1, v2):
 def subtract(v1, v2):
     return Vector2(v1.x - v2.x, v1.y - v2.y)
 
-def abs(v1):
-    return Vector2(abs(v1.x), abs(v1.y))
-
 def divide(v1, s1):
-    if s1!=0:
-        return Vector2(v1.x/s1, v1.y/s1)
-    else:
-        print("Dividing by zero in physics.vector2.divide.")
-    return Exception
+    return Vector2(v1.x/s1, v1.y/s1)
 
 def multiply(v1, s1):
     return Vector2(v1.x*s1, v1.y*s1)
 
 def normalize(v1):
-    if v1.magnitude != 0:
-        return Vector2(v1.x/v1.magnitude, v1.y/v1.magnitude)
-    return 0
+    if v1.mag() > 0:
+        return divide(v1, v1.mag())
+    return v1
 

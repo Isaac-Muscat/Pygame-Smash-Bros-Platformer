@@ -74,6 +74,9 @@ class BoxCollider2(Collider2):
         pygame.draw.rect(screen, color,
             pygame.Rect(self.p1.x, self.p1.y, self.p2.x - self.p1.x, self.p2.y-self.p1.y))
 
+    def clone(self):
+        return BoxCollider2(self.p1.x, self.p1.y, self.p2.x, self.p2.y)
+
 class CircleCollider2(Collider2):
     def __init__(self, x, y, r):
 
