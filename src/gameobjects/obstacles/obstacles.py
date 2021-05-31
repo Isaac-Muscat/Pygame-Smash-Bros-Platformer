@@ -5,7 +5,7 @@ class Obstacle(BoxCollider2):
         super().__init__(x1, y1, x2, y2)
 
     def player_collided_from_top(self, player):
-        if player.velocity.y>0 and not player.collider.p2.x < self.p1.x and not player.collider.p1.x > self.p2.x and self.p1.y < player.collider.p2.y:
+        if player.velocity.y > 0 and not player.collider.p2.x < self.p1.x and not player.collider.p1.x > self.p2.x and self.p1.y < player.collider.p2.y:
             if player.prev_collider.p2.y <= self.p1.y and (self.p1.x < player.prev_collider.p1.x < self.p2.x or self.p1.x < player.prev_collider.p2.x < self.p2.x):
                 return True
         return False

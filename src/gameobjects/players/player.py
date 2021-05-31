@@ -6,10 +6,11 @@ from src.physics.vector2 import Vector2
 
 class Player(Rigidbody):
     def __init__(self, x=s.s_s[0] / 2, y=100, width=25, height=50, mass=10, jumps=4,
-                 drag_coef=0.3, friction_coef=0.05,gravity_coef=0.3, max_runspeed=0.5,
-                 jump_force=Vector2(0, -12), run_force=Vector2(0.25, 0)):
+                 drag_coef=0.3, friction_coef=0.05,gravity_coef=0.3, max_runspeed=0.5, max_fallspeed=0.7,
+                 jump_force=Vector2(0, -10), run_force=Vector2(0.25, 0)):
         super().__init__(x, y, mass)
 
+        self.max_fallspeed = max_fallspeed
         self.max_runspeed = max_runspeed
         self.gravity_coef = gravity_coef
         self.friction_coef = friction_coef
@@ -28,7 +29,7 @@ class Player(Rigidbody):
         self.sprite = 'sprite path stuff'
 
     def draw(self, screen):
-        #TODO sprite stuff here
+        # TODO sprite stuff here
         self.collider.draw_collider(screen, s.RED)
 
     def update(self, time):

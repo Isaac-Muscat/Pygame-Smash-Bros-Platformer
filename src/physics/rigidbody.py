@@ -17,9 +17,14 @@ class Rigidbody(object):
 
     def add_friction(self, friction_coef):
         # Add friction from ground along x only
-        friction = vec.multiply(vec.normalize(self.velocity), -friction_coef)
-        friction.y = 0
-        self.add_force(friction)
+        vel_dir = vec.normalize(self.velocity).x
+        if vel_dir > 0:
+            friction = max(friction_coef * -vel_dir, -self.velocity.x)
+
+        else:
+            friction = min(friction_coef * -vel_dir, -self.velocity.x)
+
+        self.add_force(Vector2(friction, 0))
 
     def add_drag(self, drag_coef):
         if self.velocity.x != 0 or self.velocity.y != 0:
