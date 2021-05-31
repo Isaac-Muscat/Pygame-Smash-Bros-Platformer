@@ -1,13 +1,12 @@
-import math
-
 import pygame
 
 import settings as s
 from gameobjects.obstacles import platform, wall
-import gameobjects.players.jonah as j
-import gameobjects.players.isaac as i
+import src.gameobjects.players.jonah as j
+import src.gameobjects.players.isaac as i
 from physics.collider2 import CircleCollider2, BoxCollider2
 import physics.vector2 as vec
+
 
 
 class Scene(object):
@@ -89,57 +88,86 @@ class GameScene(Scene):
     # TODO Must add a list of players and change organization of functions into individual player classes
     def __init__(self):
         super().__init__()
-        map_multiplier = 1.5
-        self.map_s = (int(s.s_s[0] * map_multiplier), int(s.s_s[1] * map_multiplier))
-        self.offset = ((self.map_s[0] - s.s_s[0]) / 2, (self.map_s[1] - s.s_s[1]) / 2)
-        self.buffer = pygame.surface.Surface(self.map_s)
+        # self.players = [Player()]
+        self.player_1 = j.Jonah()
+        self.player_2 = i.Isaac()
 
-        self.players = [j.Jonah(self.map_s[0] * 0.4, self.map_s[1] * 0.3),
-                        i.Isaac(self.map_s[0] * 0.6, self.map_s[1] * 0.3)]
-
-        self.obstacles = [platform.Platform(self.map_s[0] * 0.3, self.map_s[1] * 0.6, self.map_s[0] * 0.7, self.map_s[1] * 0.55, s.GREEN),
-                          wall.Wall(self.map_s[0] * 0.31, self.map_s[1] * 0.6, self.map_s[0] * 0.69, self.map_s[1], s.GREY)]
+        self.floor = platform.Platform(s.s_s[0] * 0.25, s.s_s[1] * 0.75, s.s_s[0] * 0.75, s.s_s[1] * 0.7)
+        self.pillar = wall.Wall(s.s_s[0] * 0.26, s.s_s[1] * 0.7, s.s_s[0] * 0.74, s.s_s[1] + 200)
 
         # BACKGROUND
-        self.sun = CircleCollider2(self.map_s[0] / 2, self.map_s[1] * 0.2 / 2, 100).set_active(False)
+        self.sun = CircleCollider2(0, 0, 100).set_active(False)
 
     def process_input(self, events, keys):
-        event_keys = []
         for event in events:
             if event.type == pygame.KEYDOWN:
-                event_keys.append(event.key)
-        for player in self.players:
-            player.process_inputs(event_keys, keys)
+                if event.key == pygame.K_w and self.player_1.jumps_left > 1 and self.player_1.frames_in_tumble == 0:
+                    self.player_1.jumps_left -= 1
+                    self.player_1.velocity.y = 0
+                    self.player_1.add_force(self.player_1.jump_force)
+
+                if event.key == pygame.K_s and self.player_1.frames_in_tumble == 0:
+                    self.player_1.velocity.y = 0
+                    self.player_1.add_force(vec.multiply(self.player_1.jump_force, -0.5))
+
+                if event.key == pygame.K_UP and self.player_2.jumps_left > 1 and self.player_2.frames_in_tumble == 0:
+                    self.player_2.jumps_left -= 1
+                    self.player_2.velocity.y = 0
+                    self.player_2.add_force(self.player_2.jump_force)
+
+                if event.key == pygame.K_DOWN and self.player_2.frames_in_tumble == 0:
+                    self.player_2.velocity.y = 0
+                    self.player_2.add_force(vec.multiply(self.player_2.jump_force, -0.5))
+
+        if keys[pygame.K_a] and self.player_1.velocity.x > -self.player_1.max_runspeed and self.player_1.frames_in_tumble == 0:
+            run_force = vec.multiply(self.player_1.run_force, -1)
+            self.player_1.add_force(run_force)
+            self.player_1.direction_facing = -1
+
+        if keys[pygame.K_d] and self.player_1.velocity.x < self.player_1.max_runspeed and self.player_1.frames_in_tumble == 0:
+            run_force = self.player_1.run_force
+            self.player_1.add_force(run_force)
+            self.player_1.direction_facing = 1
+
+        if keys[pygame.K_LEFT] and self.player_2.velocity.x > -self.player_2.max_runspeed and self.player_2.frames_in_tumble == 0:
+            run_force = vec.multiply(self.player_2.run_force, -1)
+            self.player_2.add_force(run_force)
+            self.player_2.direction_facing = -1
+
+        if keys[pygame.K_RIGHT] and self.player_2.velocity.x < self.player_2.max_runspeed and self.player_2.frames_in_tumble == 0:
+            run_force = self.player_2.run_force
+            self.player_2.add_force(run_force)
+            self.player_2.direction_facing = 1
 
     def update(self, time):
-        for player in self.players:
-            for obstacle in self.obstacles:
-                obstacle.handle_player_collision(player, time)
+        if self.floor.player_collided_from_top(self.player_1):
+            self.player_1.jumps_left = self.player_1.jumps
+            self.player_1.velocity.y = 0
+            self.player_1.position.y = self.floor.p1.y - self.player_1.collider.height
 
-        # Uncomment for players to face each other disregarding input
-        '''if self.players[0].position.x < self.players[1].position.x:
-            self.players[0].direction_facing = 1
-            self.players[1].direction_facing = -1
-        elif self.players[0].position.x > self.players[1].position.x:
-            self.players[0].direction_facing = -1
-            self.players[1].direction_facing = 1'''
+        elif self.player_1.velocity.y < self.player_1.max_fallspeed:
+            self.player_1.add_gravity(self.player_1.gravity_coef)
+
+        self.player_1.add_friction(self.player_1.friction_coef)
+        self.player_1.add_drag(self.player_1.drag_coef)
+        self.player_1.update(time)
+
+        if self.floor.player_collided_from_top(self.player_2):
+            self.player_2.jumps_left = self.player_1.jumps
+            self.player_2.velocity.y = 0
+            self.player_2.position.y = self.floor.p1.y - self.player_2.collider.height
+
+        elif self.player_2.velocity.y < self.player_2.max_fallspeed:
+            self.player_2.add_gravity(self.player_2.gravity_coef)
+
+        self.player_2.add_friction(self.player_2.friction_coef)
+        self.player_2.add_drag(self.player_2.drag_coef)
+        self.player_2.update(time)
 
     def display(self, screen):
-        # Display background
-        self.buffer.fill(s.SKYBLUE)
-        self.sun.draw_collider(self.buffer, s.YELLOW)
-
-        # Display physics objects
-        for obstacle in self.obstacles:
-            obstacle.draw_collider(self.buffer)
-        for player in self.players:
-            player.draw(self.buffer)
-
-        # Handle translating the camera view
-        dist_x = (self.players[0].collider.center.x + self.players[1].collider.center.x) / 2
-        dist_y = (self.players[0].collider.center.y + self.players[1].collider.center.y) / 2
-        translation = vec.Vector2(
-            vec.clamp((self.map_s[0] / 2) - dist_x, (s.s_s[0] - self.map_s[0]) / 2, (self.map_s[0] - s.s_s[0]) / 2),
-            vec.clamp((self.map_s[1] / 2) - dist_y, (s.s_s[1] - self.map_s[1]) / 2, (self.map_s[1] - s.s_s[1]) / 2))
-        screen.blit(pygame.transform.scale(self.buffer, self.map_s),
-                    (translation.x - self.offset[0], translation.y - self.offset[1]))
+        screen.fill(s.SKYBLUE)
+        self.sun.draw_collider(screen, s.YELLOW)
+        self.pillar.draw_collider(screen, s.GREY)
+        self.floor.draw_collider(screen, s.GREEN)
+        self.player_1.draw(screen)
+        self.player_2.draw(screen)
