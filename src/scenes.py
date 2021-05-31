@@ -2,9 +2,11 @@ import pygame
 
 import settings as s
 from gameobjects.obstacles import platform, wall
-from gameobjects.players.player import Player
+import src.gameobjects.players.jonah as j
+import src.gameobjects.players.isaac as i
 from physics.collider2 import CircleCollider2, BoxCollider2
 import physics.vector2 as vec
+
 
 
 class Scene(object):
@@ -83,11 +85,12 @@ class CharacterSelect(Scene):
 
 
 class GameScene(Scene):
-    # TODO Must add a list of players and make more childs of player instead of hardcoding player stuff in scene
+    # TODO Must add a list of players and change organization of functions into individual player classes
     def __init__(self):
         super().__init__()
         # self.players = [Player()]
-        self.player = Player()
+        self.player_1 = j.Jonah()
+        self.player_2 = i.Isaac()
 
         self.floor = platform.Platform(s.s_s[0] * 0.25, s.s_s[1] * 0.75, s.s_s[0] * 0.75, s.s_s[1] * 0.7)
         self.pillar = wall.Wall(s.s_s[0] * 0.26, s.s_s[1] * 0.7, s.s_s[0] * 0.74, s.s_s[1] + 200)
@@ -98,37 +101,73 @@ class GameScene(Scene):
     def process_input(self, events, keys):
         for event in events:
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_w and self.player.jumps_left > 1 and self.player.frames_in_tumble == 0:
-                    self.player.jumps_left -= 1
-                    self.player.velocity.y = 0
-                    self.player.add_force(self.player.jump_force)
-                if event.key == pygame.K_s and self.player.frames_in_tumble == 0 and self.player.velocity.y < 0:
-                    self.player.velocity.y = 0
-                    self.player.add_force(vec.multiply(self.player.jump_force, -0.5))
+                if event.key == pygame.K_w and self.player_1.jumps_left > 1 and self.player_1.frames_in_tumble == 0:
+                    self.player_1.jumps_left -= 1
+                    self.player_1.velocity.y = 0
+                    self.player_1.add_force(self.player_1.jump_force)
 
-        if keys[pygame.K_a] and self.player.velocity.x > -self.player.max_runspeed and self.player.frames_in_tumble == 0:
-            self.player.add_force(vec.multiply(self.player.run_force, -1))
-            # self.player.velocity.x = -self.player.run_force.x
-        if keys[pygame.K_d] and self.player.velocity.x < self.player.max_runspeed and self.player.frames_in_tumble == 0:
-            self.player.add_force(self.player.run_force)
-            # self.player.velocity.x = self.player.run_force.x
+                if event.key == pygame.K_s and self.player_1.frames_in_tumble == 0:
+                    self.player_1.velocity.y = 0
+                    self.player_1.add_force(vec.multiply(self.player_1.jump_force, -0.5))
+
+                if event.key == pygame.K_UP and self.player_2.jumps_left > 1 and self.player_2.frames_in_tumble == 0:
+                    self.player_2.jumps_left -= 1
+                    self.player_2.velocity.y = 0
+                    self.player_2.add_force(self.player_2.jump_force)
+
+                if event.key == pygame.K_DOWN and self.player_2.frames_in_tumble == 0:
+                    self.player_2.velocity.y = 0
+                    self.player_2.add_force(vec.multiply(self.player_2.jump_force, -0.5))
+
+        if keys[pygame.K_a] and self.player_1.velocity.x > -self.player_1.max_runspeed and self.player_1.frames_in_tumble == 0:
+            run_force = vec.multiply(self.player_1.run_force, -1)
+            self.player_1.add_force(run_force)
+            self.player_1.direction_facing = -1
+
+        if keys[pygame.K_d] and self.player_1.velocity.x < self.player_1.max_runspeed and self.player_1.frames_in_tumble == 0:
+            run_force = self.player_1.run_force
+            self.player_1.add_force(run_force)
+            self.player_1.direction_facing = 1
+
+        if keys[pygame.K_LEFT] and self.player_2.velocity.x > -self.player_2.max_runspeed and self.player_2.frames_in_tumble == 0:
+            run_force = vec.multiply(self.player_2.run_force, -1)
+            self.player_2.add_force(run_force)
+            self.player_2.direction_facing = -1
+
+        if keys[pygame.K_RIGHT] and self.player_2.velocity.x < self.player_2.max_runspeed and self.player_2.frames_in_tumble == 0:
+            run_force = self.player_2.run_force
+            self.player_2.add_force(run_force)
+            self.player_2.direction_facing = 1
 
     def update(self, time):
-        if self.floor.player_collided_from_top(self.player):
-            self.player.jumps_left = self.player.jumps
-            self.player.velocity.y = 0
-            self.player.position.y = self.floor.p1.y - self.player.collider.height
+        if self.floor.player_collided_from_top(self.player_1):
+            self.player_1.jumps_left = self.player_1.jumps
+            self.player_1.velocity.y = 0
+            self.player_1.position.y = self.floor.p1.y - self.player_1.collider.height
 
-        else:
-            self.player.add_gravity(self.player.gravity_coef)
+        elif self.player_1.velocity.y < self.player_1.max_fallspeed:
+            self.player_1.add_gravity(self.player_1.gravity_coef)
 
-        self.player.add_friction(self.player.friction_coef)
-        self.player.add_drag(self.player.drag_coef)
-        self.player.update(time)
+        self.player_1.add_friction(self.player_1.friction_coef)
+        self.player_1.add_drag(self.player_1.drag_coef)
+        self.player_1.update(time)
+
+        if self.floor.player_collided_from_top(self.player_2):
+            self.player_2.jumps_left = self.player_1.jumps
+            self.player_2.velocity.y = 0
+            self.player_2.position.y = self.floor.p1.y - self.player_2.collider.height
+
+        elif self.player_2.velocity.y < self.player_2.max_fallspeed:
+            self.player_2.add_gravity(self.player_2.gravity_coef)
+
+        self.player_2.add_friction(self.player_2.friction_coef)
+        self.player_2.add_drag(self.player_2.drag_coef)
+        self.player_2.update(time)
 
     def display(self, screen):
         screen.fill(s.SKYBLUE)
         self.sun.draw_collider(screen, s.YELLOW)
         self.pillar.draw_collider(screen, s.GREY)
         self.floor.draw_collider(screen, s.GREEN)
-        self.player.draw(screen)
+        self.player_1.draw(screen)
+        self.player_2.draw(screen)
