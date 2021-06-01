@@ -1,5 +1,5 @@
 # Packages, Libraries, and Modules
-from scenes import GameScene
+from scenes import GameScene, MainMenu
 import settings as s
 import pygame
 

@@ -4,6 +4,7 @@ FPS = 60
 
 # screen size
 s_s = (1440, 900)
+h_s_s = (s_s[0]/2, s_s[1]/2)
 
 BLACK = (0, 0, 0)
 GREY = (40, 40, 40)
