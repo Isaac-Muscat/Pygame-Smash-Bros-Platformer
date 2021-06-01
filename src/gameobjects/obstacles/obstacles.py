@@ -1,4 +1,4 @@
-from src.physics.collider2 import BoxCollider2
+from physics.collider2 import BoxCollider2
 
 class Obstacle(BoxCollider2):
     def __init__(self, x1, y1, x2, y2):

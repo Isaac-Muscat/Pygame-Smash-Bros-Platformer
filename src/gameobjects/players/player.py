@@ -1,8 +1,10 @@
-from src.physics.rigidbody import Rigidbody
-from src.physics.collider2 import BoxCollider2
-import src.settings as s
-import src.physics.vector2 as vec
-from src.physics.vector2 import Vector2
+from physics.rigidbody import Rigidbody
+from physics.collider2 import SpriteCollider2, BoxCollider2
+import settings as s
+import physics.vector2 as vec
+from physics.vector2 import Vector2
+import pygame
+from Sprites import jonahSprites
 
 class Player(Rigidbody):
     def __init__(self, x=s.s_s[0] / 2, y=100, width=25, height=50, mass=10, jumps=4,
@@ -23,13 +25,21 @@ class Player(Rigidbody):
         self.direction_facing = 1 #1 for player facing right and -1 for player facing left
 
         self.size = (width, height)
-        self.collider = BoxCollider2(self.position.x, self.position.y, self.position.x + self.size[0], self.position.y + self.size[1])
+        self.collider = SpriteCollider2(self.position.x, self.position.y, self.position.x + self.size[0], self.position.y + self.size[1])
         self.prev_collider = self.collider.clone()
-        self.sprite = 'sprite path stuff'
+
+
 
     def draw(self, screen):
         #TODO sprite stuff here
-        self.collider.draw_collider(screen, s.RED)
+        self.all_sprites_list = pygame.sprite.Group()
+        self.stand = jonahSprites.Jonah(150, 150, self.position.x - 75, self.position.y - 75)
+
+        self.all_sprites_list.add(self.stand)
+
+        self.collider.draw_collider(screen, self.all_sprites_list)
+
+
 
     def update(self, time):
         super().update(time)

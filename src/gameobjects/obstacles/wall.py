@@ -1,4 +1,4 @@
-from src.gameobjects.obstacles.obstacles import Obstacle
+from gameobjects.obstacles.obstacles import Obstacle
 
 
 class Wall(Obstacle):

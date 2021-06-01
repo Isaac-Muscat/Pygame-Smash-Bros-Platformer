@@ -2,7 +2,7 @@ import pygame
 
 import settings as s
 from gameobjects.obstacles import platform, wall
-from src.gameobjects.players.player import Player
+from gameobjects.players.player import Player
 from physics.collider2 import CircleCollider2, BoxCollider2
 import physics.vector2 as vec
 
