@@ -1,4 +1,4 @@
-from src.gameobjects.players.player import Player
+from gameobjects.players.player import Player
 
 
 class Jonah(Player):

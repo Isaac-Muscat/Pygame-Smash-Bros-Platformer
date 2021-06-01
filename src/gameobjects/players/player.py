@@ -1,8 +1,8 @@
-from src.physics.rigidbody import Rigidbody
-from src.physics.collider2 import BoxCollider2
-import src.settings as s
-import src.physics.vector2 as vec
-from src.physics.vector2 import Vector2
+from physics.rigidbody import Rigidbody
+from physics.collider2 import BoxCollider2
+import settings as s
+import physics.vector2 as vec
+from physics.vector2 import Vector2
 
 
 class Player(Rigidbody):

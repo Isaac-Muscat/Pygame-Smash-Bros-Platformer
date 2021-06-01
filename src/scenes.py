@@ -4,8 +4,8 @@ import pygame
 
 import settings as s
 from gameobjects.obstacles import platform, wall
-import src.gameobjects.players.jonah as j
-import src.gameobjects.players.isaac as i
+import gameobjects.players.jonah as j
+import gameobjects.players.isaac as i
 from physics.collider2 import CircleCollider2, BoxCollider2
 import physics.vector2 as vec
 
