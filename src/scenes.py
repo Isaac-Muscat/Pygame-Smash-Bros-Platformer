@@ -1,3 +1,5 @@
+import math
+
 import pygame
 
 import settings as s
@@ -88,15 +90,20 @@ class GameScene(Scene):
     # TODO Must add a list of players and change organization of functions into individual player classes
     def __init__(self):
         super().__init__()
-        # self.players = [Player()]
-        self.player_1 = j.Jonah()
-        self.player_2 = i.Isaac()
+        map_multiplier = 1.5
+        self.map_s = (int(s.s_s[0]*map_multiplier), int(s.s_s[1]*map_multiplier))
 
-        self.floor = platform.Platform(s.s_s[0] * 0.25, s.s_s[1] * 0.75, s.s_s[0] * 0.75, s.s_s[1] * 0.7)
-        self.pillar = wall.Wall(s.s_s[0] * 0.26, s.s_s[1] * 0.7, s.s_s[0] * 0.74, s.s_s[1] + 200)
+        self.buffer = pygame.surface.Surface(self.map_s)
+
+        # TODO self.players = [Player()] and change start pos using map_s
+        self.player_1 = j.Jonah(self.map_s[0]*0.4, self.map_s[1]*0.3)
+        self.player_2 = i.Isaac(self.map_s[0]*0.6, self.map_s[1]*0.3)
+
+        self.floor = platform.Platform(self.map_s[0] * 0.3, self.map_s[1] * 0.6, self.map_s[0] * 0.7, self.map_s[1] * 0.55)
+        self.pillar = wall.Wall(self.map_s[0] * 0.31, self.map_s[1] * 0.6, self.map_s[0] * 0.69, self.map_s[1])
 
         # BACKGROUND
-        self.sun = CircleCollider2(0, 0, 100).set_active(False)
+        self.sun = CircleCollider2(self.map_s[0]/2, self.map_s[1]*0.2/2, 100).set_active(False)
 
     def process_input(self, events, keys):
         for event in events:
@@ -165,9 +172,21 @@ class GameScene(Scene):
         self.player_2.update(time)
 
     def display(self, screen):
-        screen.fill(s.SKYBLUE)
-        self.sun.draw_collider(screen, s.YELLOW)
-        self.pillar.draw_collider(screen, s.GREY)
-        self.floor.draw_collider(screen, s.GREEN)
-        self.player_1.draw(screen)
-        self.player_2.draw(screen)
+        self.buffer.fill(s.SKYBLUE)
+        self.sun.draw_collider(self.buffer, s.YELLOW)
+        self.pillar.draw_collider(self.buffer, s.GREY)
+        self.floor.draw_collider(self.buffer, s.GREEN)
+        self.player_1.draw(self.buffer)
+        self.player_2.draw(self.buffer)
+
+        # Handle zooming and translating the camera view
+        dist_x = (self.player_2.collider.center.x + self.player_1.collider.center.x)/2
+        dist_y = (self.player_2.collider.center.y + self.player_1.collider.center.y)/2
+        translation = vec.Vector2(vec.clamp((self.map_s[0]/2) - dist_x, (s.s_s[0]-self.map_s[0])/2,(self.map_s[0] - s.s_s[0])/2),
+                                  vec.clamp((self.map_s[1]/2) - dist_y, (s.s_s[1]-self.map_s[1])/2,(self.map_s[1] - s.s_s[1])/2))
+        # dist = math.sqrt(dist_x**2 + dist_y**2)
+        zoom = (vec.clamp(int(self.map_s[0]), s.s_s[0], self.map_s[0]*2),
+                vec.clamp(int(self.map_s[1]), s.s_s[1], self.map_s[1]*2))
+        offset = ((zoom[0] - s.s_s[0]) / 2, (zoom[1] - s.s_s[1]) / 2)
+        screen.blit(pygame.transform.scale(self.buffer, zoom),
+                    (translation.x - offset[0], translation.y - offset[1]))
