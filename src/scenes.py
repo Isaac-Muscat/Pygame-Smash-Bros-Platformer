@@ -147,6 +147,7 @@ class GameScene(Scene):
             self.player_2.direction_facing = 1
 
     def update(self, time):
+
         if self.floor.player_collided_from_top(self.player_1):
             self.player_1.jumps_left = self.player_1.jumps
             self.player_1.velocity.y = 0
@@ -166,6 +167,13 @@ class GameScene(Scene):
 
         elif self.player_2.velocity.y < self.player_2.max_fallspeed:
             self.player_2.add_gravity(self.player_2.gravity_coef)
+
+        if self.player_1.position.x < self.player_2.position.x:
+            self.player_1.direction_facing = 1
+            self.player_2.direction_facing = -1
+        elif self.player_1.position.x > self.player_2.position.x:
+            self.player_1.direction_facing = -1
+            self.player_2.direction_facing = 1
 
         self.player_2.add_friction(self.player_2.friction_coef)
         self.player_2.add_drag(self.player_2.drag_coef)

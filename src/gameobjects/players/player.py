@@ -5,6 +5,7 @@ import physics.vector2 as vec
 from physics.vector2 import Vector2
 
 
+
 class Player(Rigidbody):
     def __init__(self, x, y, width=25, height=50, mass=10, jumps=4,
                  drag_coef=0.3, friction_coef=0.05, gravity_coef=0.3, max_runspeed=0.5, max_fallspeed=0.7,
@@ -20,6 +21,7 @@ class Player(Rigidbody):
         self.run_force = run_force
         self.jumps = jumps
         self.jumps_left = jumps
+
 
         self.frames_in_tumble = 0
         self.direction_facing = 1  # 1 for player facing right and -1 for player facing left

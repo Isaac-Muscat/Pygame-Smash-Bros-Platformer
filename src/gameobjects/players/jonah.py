@@ -32,5 +32,8 @@ class Jonah(Player):
         else:
             self.image = pygame.image.load("Sprites/Jonah/R/stand1.png")
 
+
         self.image = pygame.transform.scale(self.image, (150, 150))
+        if self.direction_facing == -1:
+            self.image = pygame.transform.flip(self.image, True, False)
         screen.blit(self.image, [self.position.x - 75, self.position.y - 75])
