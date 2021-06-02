@@ -1,11 +1,5 @@
 from gameobjects.players.player import Player
 import pygame
-import settings as s
-import physics.vector2
-import math
-import time
-import threading
-
 
 class Jonah(Player):
     def __init__(self, x, y):
