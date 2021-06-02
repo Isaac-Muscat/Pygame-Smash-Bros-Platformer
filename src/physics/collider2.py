@@ -1,7 +1,7 @@
 from physics.vector2 import Vector2
 import physics.vector2 as vec
 import pygame
-import Sprites.jonahSprites
+
 
 class Collider2(object):
     def collider_has_collided(self, collider):

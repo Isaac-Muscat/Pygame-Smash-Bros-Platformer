@@ -30,9 +30,8 @@ class Player(Rigidbody):
         self.prev_collider = self.collider.clone()
         self.sprite = 'sprite path stuff'
 
-    def draw(self, screen):
-        # TODO sprite stuff here
-        self.collider.draw_collider(screen, s.RED)
+    def draw(self):
+        print("You did not override this in the child class.")
 
     def update(self, time):
         super().update(time)
