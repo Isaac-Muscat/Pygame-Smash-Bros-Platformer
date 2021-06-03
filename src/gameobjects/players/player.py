@@ -1,7 +1,6 @@
 from physics.rigidbody import Rigidbody
 from physics.collider2 import BoxCollider2
 import settings as s
-import physics.vector2 as vec
 from physics.vector2 import Vector2
 
 
@@ -25,14 +24,15 @@ class Player(Rigidbody):
 
         self.frames_in_tumble = 0
         self.direction_facing = 1  # 1 for player facing right and -1 for player facing left
+        self.grounded = False      # True if player is on ground and False if in the air
+        self.dash_num = 0
 
         self.size = (width, height)
         self.collider = BoxCollider2(self.position.x, self.position.y, self.position.x + self.size[0],
                                      self.position.y + self.size[1])
         self.prev_collider = self.collider.clone()
-        self.sprite = 'sprite path stuff'
 
-    def draw(self):
+    def draw(self, screen):
         print("You did not override this in the child class.")
 
     def update(self, time):
