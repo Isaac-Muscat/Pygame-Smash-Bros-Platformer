@@ -89,13 +89,13 @@ class GameScene(Scene):
     # TODO Must add a list of players and change organization of functions into individual player classes
     def __init__(self):
         super().__init__()
-        map_multiplier = 1.5
-        self.map_s = (int(s.s_s[0] * map_multiplier), int(s.s_s[1] * map_multiplier))
+
+        self.map_s = (int(s.s_s[0] * s.map_multiplier), int(s.s_s[1] * s.map_multiplier))
         self.offset = ((self.map_s[0] - s.s_s[0]) / 2, (self.map_s[1] - s.s_s[1]) / 2)
         self.buffer = pygame.surface.Surface(self.map_s)
 
-        self.players = [j.Jonah(self.map_s[0] * 0.4, self.map_s[1] * 0.3),
-                        i.Isaac(self.map_s[0] * 0.6, self.map_s[1] * 0.3)]
+        self.players = [j.Jonah(self.map_s[0] * 0.4, self.map_s[1] * 0.3, s.p1_bindings),
+                        j.Jonah(self.map_s[0] * 0.6, self.map_s[1] * 0.3, s.p2_bindings)]
 
         self.obstacles = [platform.Platform(self.map_s[0] * 0.3, self.map_s[1] * 0.6, self.map_s[0] * 0.7, self.map_s[1] * 0.55, s.GREEN),
                           wall.Wall(self.map_s[0] * 0.31, self.map_s[1] * 0.6, self.map_s[0] * 0.69, self.map_s[1], s.GREY)]
@@ -141,5 +141,13 @@ class GameScene(Scene):
         translation = vec.Vector2(
             vec.clamp((self.map_s[0] / 2) - dist_x, (s.s_s[0] - self.map_s[0]) / 2, (self.map_s[0] - s.s_s[0]) / 2),
             vec.clamp((self.map_s[1] / 2) - dist_y, (s.s_s[1] - self.map_s[1]) / 2, (self.map_s[1] - s.s_s[1]) / 2))
+
         screen.blit(pygame.transform.scale(self.buffer, self.map_s),
                     (translation.x - self.offset[0], translation.y - self.offset[1]))
+
+        # Display health
+        for i in range(len(self.players)):
+            font = pygame.font.SysFont("Arial", 100)
+            stats = font.render(str(self.players[i].damage_percentage) + '%', False, (0, 0, 0))
+            center = stats.get_rect(center=(self.offset[0]+self.map_s[0] * 0.3 * i, self.map_s[1] * 0.5))
+            screen.blit(stats, center)

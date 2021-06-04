@@ -2,14 +2,17 @@ from physics.rigidbody import Rigidbody
 from physics.collider2 import BoxCollider2
 import settings as s
 from physics.vector2 import Vector2
+import physics.vector2 as vec
 
 
 
 class Player(Rigidbody):
-    def __init__(self, x, y, width=25, height=50, mass=10, jumps=4,
+    def __init__(self, x, y, key_bindings, width=25, height=50, mass=10, jumps=4, direction_facing=1,
                  drag_coef=0.3, friction_coef=0.05, gravity_coef=0.3, max_runspeed=0.5, max_fallspeed=0.7,
                  jump_force=Vector2(0, -10), run_force=Vector2(0.25, 0)):
         super().__init__(int(x), int(y), mass)
+
+        self.key_bindings = key_bindings
 
         self.max_fallspeed = max_fallspeed
         self.max_runspeed = max_runspeed
@@ -21,11 +24,13 @@ class Player(Rigidbody):
         self.jumps = jumps
         self.jumps_left = jumps
 
-
+        self.attack_frames = 0
         self.frames_in_tumble = 0
-        self.direction_facing = 1  # 1 for player facing right and -1 for player facing left
+        self.direction_facing = direction_facing  # 1 for player facing right and -1 for player facing left
         self.grounded = False      # True if player is on ground and False if in the air
-        self.dash_num = 0
+
+        self.lives = 3
+        self.damage_percentage = 0
 
         self.size = (width, height)
         self.collider = BoxCollider2(self.position.x, self.position.y, self.position.x + self.size[0],
@@ -47,6 +52,10 @@ class Player(Rigidbody):
         # Update tumble/stun duration
         if self.frames_in_tumble > 0:
             self.frames_in_tumble -= time * s.FPS / 1000
+            self.frames_in_tumble = vec.clamp(self.frames_in_tumble, 0, 100000)
+        if self.attack_frames > 0:
+            self.attack_frames -= time*s.FPS/1000
+            self.attack_frames = vec.clamp(self.attack_frames, 0, 100000)
 
     def normal_attack(self):
         pass
