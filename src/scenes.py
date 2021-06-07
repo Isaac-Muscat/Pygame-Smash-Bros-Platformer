@@ -89,13 +89,13 @@ class GameScene(Scene):
     # TODO Must add a list of players and change organization of functions into individual player classes
     def __init__(self):
         super().__init__()
-
+        self.percent_font = pygame.font.SysFont("Arial", 100)
         self.map_s = (int(s.s_s[0] * s.map_multiplier), int(s.s_s[1] * s.map_multiplier))
         self.offset = ((self.map_s[0] - s.s_s[0]) / 2, (self.map_s[1] - s.s_s[1]) / 2)
         self.buffer = pygame.surface.Surface(self.map_s)
 
-        self.players = [j.Jonah(self.map_s[0] * 0.4, self.map_s[1] * 0.3, s.p1_bindings),
-                        j.Jonah(self.map_s[0] * 0.6, self.map_s[1] * 0.3, s.p2_bindings)]
+        self.players = [j.Jonah(self.map_s[0] * 0.4, self.map_s[1] * 0.1, s.p1_bindings),
+                        j.Jonah(self.map_s[0] * 0.6, self.map_s[1] * 0.1, s.p2_bindings, direction_facing=-1)]
 
         self.obstacles = [platform.Platform(self.map_s[0] * 0.3, self.map_s[1] * 0.6, self.map_s[0] * 0.7, self.map_s[1] * 0.55, s.GREEN),
                           wall.Wall(self.map_s[0] * 0.31, self.map_s[1] * 0.6, self.map_s[0] * 0.69, self.map_s[1], s.GREY)]
@@ -114,15 +114,30 @@ class GameScene(Scene):
     def update(self, time):
         for player in self.players:
             for obstacle in self.obstacles:
-                obstacle.handle_player_collision(player, time)
+                if obstacle.player_collided_from_top(player):
+                    player.jumps_left = player.jumps
+                    player.velocity.y = 0
+                    player.position.y = obstacle.p1.y - player.collider.height
+                    player.grounded_on = obstacle
+                elif player.grounded_on==obstacle and obstacle.player_has_fallen_off(player):
+                    player.grounded_on = None
+
+            if player.velocity.y < player.max_fallspeed and player.grounded_on is None:
+                player.add_gravity(player.gravity_coef)
+
+            player.add_friction(player.friction_coef)
+            player.add_drag(player.drag_coef)
+            player.update(time)
 
         # Uncomment for players to face each other disregarding input
-        '''if self.players[0].position.x < self.players[1].position.x:
+        '''
+        if self.players[0].position.x < self.players[1].position.x:
             self.players[0].direction_facing = 1
             self.players[1].direction_facing = -1
         elif self.players[0].position.x > self.players[1].position.x:
             self.players[0].direction_facing = -1
-            self.players[1].direction_facing = 1'''
+            self.players[1].direction_facing = 1
+        #'''
 
     def display(self, screen):
         # Display background
@@ -134,6 +149,8 @@ class GameScene(Scene):
             obstacle.draw_collider(self.buffer)
         for player in self.players:
             player.draw(self.buffer)
+            if player.attack_collider is not None and s.DEBUG:
+                player.attack_collider.draw_collider(self.buffer, s.BLACK)
 
         # Handle translating the camera view
         dist_x = (self.players[0].collider.center.x + self.players[1].collider.center.x) / 2
@@ -147,7 +164,6 @@ class GameScene(Scene):
 
         # Display health
         for i in range(len(self.players)):
-            font = pygame.font.SysFont("Arial", 100)
-            stats = font.render(str(self.players[i].damage_percentage) + '%', False, (0, 0, 0))
+            stats = self.percent_font.render(str(self.players[i].damage_percentage) + '%', False, (0, 0, 0))
             center = stats.get_rect(center=(self.offset[0]+self.map_s[0] * 0.3 * i, self.map_s[1] * 0.5))
             screen.blit(stats, center)
