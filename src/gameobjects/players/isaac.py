@@ -5,8 +5,8 @@ import pygame
 
 
 class Isaac(Player):
-    def __init__(self, x, y, key_bindings):
-        super().__init__(x, y, key_bindings)
+    def __init__(self, x, y, key_bindings, **settings):
+        super().__init__(x, y, key_bindings, **settings)
 
     def process_inputs(self, event_keys, keys):
         for key in event_keys:
