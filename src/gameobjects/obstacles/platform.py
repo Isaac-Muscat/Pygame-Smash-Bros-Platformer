@@ -1,4 +1,4 @@
-from obstacles import Obstacle
+from gameobjects.obstacles.obstacles import Obstacle
 
 
 class Platform(Obstacle):

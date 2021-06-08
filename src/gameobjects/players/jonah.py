@@ -1,6 +1,6 @@
-from player import Player
+from gameobjects.players.player import Player
 import physics.vector2 as vec
-import attacks as a
+import gameobjects.players.attacks as a
 import pygame
 import settings as s
 

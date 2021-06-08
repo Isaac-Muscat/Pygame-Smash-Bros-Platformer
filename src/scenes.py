@@ -95,7 +95,7 @@ class GameScene(Scene):
         self.buffer = pygame.surface.Surface(self.map_s)
 
         self.players = [j.Jonah(self.map_s[0] * 0.4, self.map_s[1] * 0.1, s.p1_bindings),
-                        j.Jonah(self.map_s[0] * 0.6, self.map_s[1] * 0.1, s.p2_bindings, direction_facing=-1)]
+                        i.Isaac(self.map_s[0] * 0.6, self.map_s[1] * 0.1, s.p2_bindings, direction_facing=-1)]
 
         self.obstacles = [
             platform.Platform(self.map_s[0] * 0.3, self.map_s[1] * 0.6, self.map_s[0] * 0.7, self.map_s[1] * 0.55,
