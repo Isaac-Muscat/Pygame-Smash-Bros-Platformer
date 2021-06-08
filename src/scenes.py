@@ -97,8 +97,10 @@ class GameScene(Scene):
         self.players = [j.Jonah(self.map_s[0] * 0.4, self.map_s[1] * 0.1, s.p1_bindings),
                         j.Jonah(self.map_s[0] * 0.6, self.map_s[1] * 0.1, s.p2_bindings, direction_facing=-1)]
 
-        self.obstacles = [platform.Platform(self.map_s[0] * 0.3, self.map_s[1] * 0.6, self.map_s[0] * 0.7, self.map_s[1] * 0.55, s.GREEN),
-                          wall.Wall(self.map_s[0] * 0.31, self.map_s[1] * 0.6, self.map_s[0] * 0.69, self.map_s[1], s.GREY)]
+        self.obstacles = [
+            platform.Platform(self.map_s[0] * 0.3, self.map_s[1] * 0.6, self.map_s[0] * 0.7, self.map_s[1] * 0.55,
+                              s.GREEN),
+            wall.Wall(self.map_s[0] * 0.31, self.map_s[1] * 0.6, self.map_s[0] * 0.69, self.map_s[1], s.GREY)]
 
         # BACKGROUND
         self.sun = CircleCollider2(self.map_s[0] / 2, self.map_s[1] * 0.2 / 2, 100).set_active(False)
@@ -113,15 +115,47 @@ class GameScene(Scene):
 
     def update(self, time):
         for player in self.players:
+
+            # Handle player attacks
+            for player_2 in self.players:
+                attack = player.attack_collider
+                if player is not player_2 and attack is not None and attack.active is True and \
+                        attack.collider_has_collided(player_2.collider) and \
+                        attack.post_lag < attack.total_lag < \
+                        attack.peri_lag + attack.post_lag:
+
+                    player_2.velocity.multiply(0)
+                    force = vec.multiply(attack.knockback_direction,
+                                         attack.knockback_multiplier * (1 + player_2.damage_percentage))
+                    force.x *= player.direction_facing
+                    player_2.add_force(force)
+                    player_2.damage_percentage += player.attack_collider.percent_damage
+                    player_2.frames_in_tumble = player.attack_collider.stun_duration
+                    attack.set_active(False)
+                    # Move attacking player to end of list for drawing overtop other player
+                    self.players.append(self.players.pop(self.players.index(player)))
+
+            # Handle obstacle collision
             for obstacle in self.obstacles:
                 if obstacle.player_collided_from_top(player):
                     player.jumps_left = player.jumps
                     player.velocity.y = 0
                     player.position.y = obstacle.p1.y - player.collider.height
                     player.grounded_on = obstacle
-                elif player.grounded_on==obstacle and obstacle.player_has_fallen_off(player):
+                elif player.grounded_on == obstacle and obstacle.player_has_fallen_off(player):
                     player.grounded_on = None
+                elif obstacle.player_collided_from_bottom(player):
+                    player.velocity.y = 0
+                    player.position.y = obstacle.p2.y
+                elif obstacle.player_collided_from_left(player):
+                    player.velocity.x = 0
+                    player.position.x = obstacle.p1.x-player.collider.width
+                elif obstacle.player_collided_from_right(player):
+                    player.velocity.x = 0
+                    player.position.x = obstacle.p2.x+1
 
+            if player.velocity.y < 0 and player.grounded_on is not None:
+                player.grounded_on = None
             if player.velocity.y < player.max_fallspeed and player.grounded_on is None:
                 player.add_gravity(player.gravity_coef)
 
@@ -164,6 +198,7 @@ class GameScene(Scene):
 
         # Display health
         for i in range(len(self.players)):
-            stats = self.percent_font.render(str(self.players[i].damage_percentage) + '%', False, (0, 0, 0))
-            center = stats.get_rect(center=(self.offset[0]+self.map_s[0] * 0.3 * i, self.map_s[1] * 0.5))
+            stats = self.percent_font.render(str(round(self.players[i].damage_percentage * 100)) + '%', False,
+                                             (0, 0, 0))
+            center = stats.get_rect(center=(self.offset[0] + self.map_s[0] * 0.3 * i, self.map_s[1] * 0.5))
             screen.blit(stats, center)

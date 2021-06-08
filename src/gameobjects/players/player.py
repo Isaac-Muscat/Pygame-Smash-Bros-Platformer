@@ -21,8 +21,6 @@ class Player(Rigidbody):
         self.jumps = settings.get('jumps', 4)
         self.jumps_left = self.jumps
 
-        self.attack_frames = 0
-
         self.frames_in_tumble = 0
         self.direction_facing = settings.get('direction_facing', 1)  # 1 for player facing right and -1 for player facing left
         self.grounded_on = None      # Holds obstacle if player is on a ground and None if in the air
@@ -49,24 +47,15 @@ class Player(Rigidbody):
         # Update collider position based on physics
         self.collider.set_position(int(self.position.x), int(self.position.y))
 
-        # Update attack collider position
+        # Update attack collider position and duration
         if self.attack_collider is not None:
-            self.attack_collider.set_position_from_player(self)
+            if self.attack_collider.total_lag <= 0:
+                self.attack_collider = None
+            else:
+                self.attack_collider.set_position_from_player(self)
+                self.attack_collider.total_lag -= vec.clamp(time * s.FPS / 1000, 0, 100000)
 
         # Update tumble/stun duration
         if self.frames_in_tumble > 0:
             self.frames_in_tumble -= time * s.FPS / 1000
             self.frames_in_tumble = vec.clamp(self.frames_in_tumble, 0, 100000)
-
-        # Update attack duration or Delete attack when finished
-        if self.attack_frames > 0:
-            self.attack_frames -= time*s.FPS/1000
-            self.attack_frames = vec.clamp(self.attack_frames, 0, 100000)
-        else:
-            self.attack_collider=None
-
-    def normal_attack(self):
-        pass
-
-    def special_attack(self):
-        pass

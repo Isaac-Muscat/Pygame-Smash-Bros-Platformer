@@ -29,14 +29,13 @@ class Jonah(Player):
                 self.velocity.y = 0
                 self.add_force(vec.multiply(self.jump_force, -0.5))
 
-            if key == self.key_bindings['attack'] and self.frames_in_tumble == 0 and self.attack_frames == 0:
+            if key == self.key_bindings['attack'] and self.frames_in_tumble == 0 and self.attack_collider is None:
                 self.attack_collider = self.get_normal_attack()
-                self.attack_frames = self.attack_collider.total_lag
-                self.attacking = True
-            if key == self.key_bindings['heavy'] and self.frames_in_tumble == 0 and self.attack_frames == 0:
+
+            if key == self.key_bindings['heavy'] and self.frames_in_tumble == 0 and self.attack_collider is None:
                 pass # self.attack_collider = self.get_heavy_attack()
 
-        if keys[self.key_bindings['left']] and self.velocity.x > -self.max_runspeed and self.frames_in_tumble == 0 and self.attack_frames==0:
+        if keys[self.key_bindings['left']] and self.velocity.x > -self.max_runspeed and self.frames_in_tumble == 0 and self.attack_collider is None:
             if self.velocity.x > 0 and self.grounded_on:
                 run_force = vec.multiply(self.run_force, -5)
             else:
@@ -44,7 +43,7 @@ class Jonah(Player):
             self.add_force(run_force)
             self.direction_facing = -1
 
-        if keys[self.key_bindings['right']] and self.velocity.x < self.max_runspeed and self.frames_in_tumble == 0 and self.attack_frames==0:
+        if keys[self.key_bindings['right']] and self.velocity.x < self.max_runspeed and self.frames_in_tumble == 0 and self.attack_collider is None:
             if self.velocity.x < 0 and self.grounded_on:
                 run_force = vec.multiply(self.run_force, 5)
             else:
@@ -79,7 +78,7 @@ class Jonah(Player):
 
     def draw(self, screen):
         if s.DEBUG: self.collider.draw_collider(screen, s.RED)
-        if self.attack_frames > 0:
+        if self.attack_collider is not None:
             self.image = self.sprites['forward_tilt']
 
         # In the air

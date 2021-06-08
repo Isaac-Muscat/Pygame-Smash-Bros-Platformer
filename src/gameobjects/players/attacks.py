@@ -7,14 +7,16 @@ class Attack(col.BoxCollider2):
         super().__init__(x1, y1, x2, y2)
 
         # Lag measured in frames
-        self.pre_lag = settings.get('pre_lag',0)
-        self.peri_lag = settings.get('peri_lag',s.FPS/2)
-        self.post_lag = settings.get('post_lag',0)
+        self.pre_lag = settings.get('pre_lag',s.FPS*0.01)
+        self.peri_lag = settings.get('peri_lag',s.FPS*0.5)
+        self.post_lag = settings.get('post_lag',s.FPS*0.1)
         self.total_lag = self.pre_lag+self.peri_lag+self.post_lag
 
-        self.percent_damage = settings.get('percent_damage',10)
-        self.knockback_multiplier = settings.get('knockback_force',100)
-        self.knockback_direction = settings.get('knockback_direction', vec.Vector2(1, 1).normalize())
+        self.percent_damage = settings.get('percent_damage',0.05)
+        self.knockback_multiplier = settings.get('knockback_force',5)
+        self.knockback_direction = settings.get('knockback_direction', vec.normalize(vec.Vector2(1, -2)))
+        self.stun_duration = settings.get('stun_duration', s.FPS*0.1)
+
 
 class NormalAttack(Attack):
     def __init__(self, p_center_x, p_center_y, **settings): # p stands for 'player' - Ex: player_x
