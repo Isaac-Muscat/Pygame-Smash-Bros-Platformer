@@ -6,13 +6,13 @@ import settings as s
 
 class Isaac(Player):
     def __init__(self, x, y, key_bindings, **settings):
-        settings['width']=45
-        settings['height']=90
+        settings['width']=30
+        settings['height']=100
         super().__init__(x, y, key_bindings, **settings)
-        self.sprites = {'jump':pygame.image.load("sprites/Isaac/I_jump.png"),
-                        'walk':[pygame.image.load("sprites/Isaac/I_walk.png"), pygame.image.load("sprites/Isaac/I_stand.png")],
-                        'stand':pygame.image.load("sprites/Isaac/I_stand.png"),
-                        'forward_tilt':pygame.image.load("sprites/Isaac/I_latk.png")}
+        self.sprites = {'jump':pygame.image.load("gameobjects/players/sprites/Isaac/I_jump.png"),
+                        'walk':[pygame.image.load("gameobjects/players/sprites/Isaac/I_walk.png"), pygame.image.load("gameobjects/players/sprites/Isaac/I_stand.png")],
+                        'stand':pygame.image.load("gameobjects/players/sprites/Isaac/I_stand.png"),
+                        'forward_tilt':pygame.image.load("gameobjects/players/sprites/Isaac/I_latk.png")}
 
         self.frame_count = 0
         self.time_between_frames = 10
@@ -78,24 +78,25 @@ class Isaac(Player):
     def draw(self, screen):
         if s.DEBUG: self.collider.draw_collider(screen, s.RED)
         if self.attack_collider is not None:
-            self.image = self.sprites['forward_tilt']
+            self.image = pygame.transform.scale(self.sprites['forward_tilt'], (70, 140))
 
         # In the air
         elif not self.grounded_on:
             self.image = self.sprites['jump']
+            self.image = pygame.transform.scale(self.image, (70, 140))
         # Walking
         elif round(self.velocity.x, 1) != 0:
             self.image = self.sprites['walk'][self.frame_count//self.time_between_frames]
+            self.image = pygame.transform.scale(self.image, (70, 140))
             self.frame_count += 1
             if self.frame_count >= self.time_between_frames*len(self.sprites['walk']):
                 self.frame_count = 0
         # Stationary
         else:
             self.image = self.sprites['stand']
-
-        self.image = pygame.transform.scale(self.image, (70, 140))
+            self.image = pygame.transform.scale(self.image, (70, 140))
         # Change direction of sprites
         if self.direction_facing == -1:
             self.image = pygame.transform.flip(self.image, True, False)
-        screen.blit(self.image, [self.position.x-51, self.position.y-35])
+        screen.blit(self.image, [self.position.x-20, self.position.y-25])
 

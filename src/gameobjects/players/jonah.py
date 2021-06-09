@@ -10,10 +10,10 @@ class Jonah(Player):
         settings['width']=45
         settings['height']=90
         super().__init__(x, y, key_bindings, **settings)
-        self.sprites = {'jump':pygame.image.load("sprites/Jonah/jump1.png"),
-                        'walk':[pygame.image.load("sprites/Jonah/walk2.png"), pygame.image.load("sprites/Jonah/stand1.png")],
-                        'stand':pygame.image.load("sprites/Jonah/stand1.png"),
-                        'forward_tilt':pygame.image.load("sprites/Jonah/normalAttacks/forward_tilt.png")}
+        self.sprites = {'jump':pygame.image.load("gameobjects/players/sprites/Jonah/jump1.png"),
+                        'walk':[pygame.image.load("gameobjects/players/sprites/Jonah/walk2.png"), pygame.image.load("gameobjects/players/sprites/Jonah/stand1.png")],
+                        'stand':pygame.image.load("gameobjects/players/sprites/Jonah/stand1.png"),
+                        'forward_tilt':pygame.image.load("gameobjects/players/sprites/Jonah/normalAttacks/forward_tilt.png")}
 
         self.frame_count = 0
         self.time_between_frames = 10

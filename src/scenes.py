@@ -130,7 +130,7 @@ class GameScene(Scene):
                     force.x *= player.direction_facing
                     player_2.add_force(force)
                     player_2.damage_percentage += player.attack_collider.percent_damage
-                    player_2.frames_in_tumble = player.attack_collider.stun_duration
+                    player_2.frames_in_tumble = player.attack_collider.stun_duration+s.FPS*player_2.damage_percentage/2
                     attack.set_active(False)
                     # Move attacking player to end of list for drawing overtop other player
                     self.players.append(self.players.pop(self.players.index(player)))
