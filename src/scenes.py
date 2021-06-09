@@ -6,6 +6,7 @@ import settings as s
 from gameobjects.obstacles import platform, wall
 import gameobjects.players.jonah as j
 import gameobjects.players.isaac as i
+import gameobjects.players.lucas as l
 from physics.collider2 import CircleCollider2, BoxCollider2
 import physics.vector2 as vec
 
@@ -95,7 +96,7 @@ class GameScene(Scene):
         self.buffer = pygame.surface.Surface(self.map_s)
 
         self.players = [j.Jonah(self.map_s[0] * 0.4, self.map_s[1] * 0.1, s.p1_bindings),
-                        i.Isaac(self.map_s[0] * 0.6, self.map_s[1] * 0.1, s.p2_bindings, direction_facing=-1)]
+                        l.Lucas(self.map_s[0] * 0.6, self.map_s[1] * 0.1, s.p2_bindings, direction_facing=-1)]
 
         self.obstacles = [
             platform.Platform(self.map_s[0] * 0.3, self.map_s[1] * 0.6, self.map_s[0] * 0.7, self.map_s[1] * 0.55,
