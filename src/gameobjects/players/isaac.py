@@ -9,10 +9,10 @@ class Isaac(Player):
         settings['width']=45
         settings['height']=90
         super().__init__(x, y, key_bindings, **settings)
-        self.sprites = {'jump':pygame.image.load("sprites/Isaac/I_jump.png"),
-                        'walk':[pygame.image.load("sprites/Isaac/I_walk.png"), pygame.image.load("sprites/Isaac/I_stand.png")],
-                        'stand':pygame.image.load("sprites/Isaac/I_stand.png"),
-                        'forward_tilt':pygame.image.load("sprites/Isaac/I_latk.png")}
+        self.sprites = {'jump':pygame.image.load("gameobjects/players/sprites/Isaac/I_jump.png"),
+                        'walk':[pygame.image.load("gameobjects/players/sprites/Isaac/I_walk.png"), pygame.image.load("gameobjects/players/sprites/Isaac/I_stand.png")],
+                        'stand':pygame.image.load("gameobjects/players/sprites/Isaac/I_stand.png"),
+                        'forward_tilt':pygame.image.load("gameobjects/players/sprites/Isaac/I_latk.png")}
 
         self.frame_count = 0
         self.time_between_frames = 10
