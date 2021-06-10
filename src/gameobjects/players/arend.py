@@ -98,6 +98,6 @@ class Arend(Player):
         # Change direction of sprites
         if self.direction_facing == -1:
             self.image = pygame.transform.flip(self.image, True, False)
-        screen.blit(self.image, [self.position.x-51, self.position.y-35])
+        screen.blit(self.image, [self.position.x-51, self.position.y-50])
 
 

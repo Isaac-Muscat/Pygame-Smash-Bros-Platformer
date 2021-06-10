@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="bb31c947-7299-4cf2-bb0b-507a6c9ea016" name="Default Changelist" comment="Added Lucas">
-      <change afterPath="$PROJECT_DIR$/src/gameobjects/players/arend.py" afterDir="false" />
+    <list default="true" id="bb31c947-7299-4cf2-bb0b-507a6c9ea016" name="Default Changelist" comment="Added Lucas and Arend">
+      <change afterPath="$PROJECT_DIR$/src/gameobjects/players/sprites/Menus/Main/MainMenu.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/gameobjects/players/sprites/Menus/Main/StartBtn.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gameobjects/players/arend.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/gameobjects/players/arend.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/scenes.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/scenes.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/settings.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -77,7 +81,14 @@
       <option name="project" value="LOCAL" />
       <updated>1623282788470</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Added Lucas and Arend">
+      <created>1623284497208</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1623284497208</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -109,6 +120,7 @@
     <MESSAGE value="newest build with my imports" />
     <MESSAGE value="Isaac's sprites implemented. Commit2" />
     <MESSAGE value="Added Lucas" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added Lucas" />
+    <MESSAGE value="Added Lucas and Arend" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added Lucas and Arend" />
   </component>
 </project>

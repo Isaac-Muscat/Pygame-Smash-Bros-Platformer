@@ -12,7 +12,6 @@ from physics.collider2 import CircleCollider2, BoxCollider2
 import physics.vector2 as vec
 
 
-
 class Scene(object):
     def __init__(self):
         self.next = self
@@ -36,31 +35,31 @@ class Scene(object):
 class MainMenu(Scene):
     def __init__(self):
         super().__init__()
-        self.box1 = BoxCollider2(440, 50, 720, 100).set_active(False)
-        self.box2 = BoxCollider2(520, 200, 590, 250)
+
+        self.titlescreen = pygame.image.load("gameobjects/players/sprites/Menus/Main/MainMenu.png")
+        self.titlescreen = pygame.transform.scale(self.titlescreen, s.s_s)
+        self.startbtn = pygame.image.load("gameobjects/players/sprites/Menus/Main/StartBtn.png")
+        self.startbtn = pygame.transform.scale(self.startbtn, (int((s.s_s[0]) / 8), int((s.s_s[1]) / 10)))
+        self.box1 = BoxCollider2(s.h_s_s[0] - int((s.s_s[0]) / 16),  # x1
+                                 int(s.h_s_s[1] * 1.5),  # y1
+                                 s.h_s_s[0] - int((s.s_s[0]) / 16) + int((s.s_s[0]) / 8),  # x2
+                                 int(s.h_s_s[1] * 1.5) + int((s.s_s[1]) / 10))  # y2
 
     def process_input(self, events, pressed_keys):
         x, y = pygame.mouse.get_pos()
         for event in events:
             if event.type == pygame.MOUSEBUTTONDOWN:
-                if self.box2.point_has_collided(x, y):
+                if self.box1.point_has_collided(x, y):
                     self.switch_to_scene(CharacterSelect())
 
     def update(self, clock):
         pass
 
     def display(self, screen):
-        screen.fill(s.BLUE)
         self.box1.draw_collider(screen, s.WHITE)
-        self.box2.draw_collider(screen, s.RED)
-        pygame.font.init()
-        font = pygame.font.SysFont("Arial", 30)
-        title = font.render("Duper Crash Bros", False, (0, 0, 0))
-        center = title.get_rect(center=(self.box1.center.x, self.box1.center.y))
-        screen.blit(title, center)
-        start = font.render("Start", False, (0, 0, 0))
-        center = start.get_rect(center=(self.box2.center.x, self.box2.center.y))
-        screen.blit(start, center)
+        screen.blit(self.titlescreen, (0, 0))
+        screen.blit(self.startbtn, ((s.h_s_s[0] - int((s.s_s[0]) / 16), int(s.h_s_s[1] * 1.5))))
+
 
 
 class CharacterSelect(Scene):
@@ -126,7 +125,6 @@ class GameScene(Scene):
                         attack.collider_has_collided(player_2.collider) and \
                         attack.post_lag < attack.total_lag < \
                         attack.peri_lag + attack.post_lag:
-
                     player_2.velocity.multiply(0)
                     force = vec.multiply(attack.knockback_direction,
                                          attack.knockback_multiplier * (1 + player_2.damage_percentage))
@@ -152,10 +150,10 @@ class GameScene(Scene):
                     player.position.y = obstacle.p2.y
                 elif obstacle.player_collided_from_left(player):
                     player.velocity.x = 0
-                    player.position.x = obstacle.p1.x-player.collider.width
+                    player.position.x = obstacle.p1.x - player.collider.width
                 elif obstacle.player_collided_from_right(player):
                     player.velocity.x = 0
-                    player.position.x = obstacle.p2.x+1
+                    player.position.x = obstacle.p2.x + 1
 
             if player.velocity.y < 0 and player.grounded_on is not None:
                 player.grounded_on = None
