@@ -1,12 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="bb31c947-7299-4cf2-bb0b-507a6c9ea016" name="Default Changelist" comment="Isaac's sprites implemented. Commit2">
-      <change afterPath="$PROJECT_DIR$/src/gameobjects/players/lucas.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/gameobjects/players/sprites/Lucas/L_Jump.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/gameobjects/players/sprites/Lucas/L_Stand.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/gameobjects/players/sprites/Lucas/L_Walk.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/gameobjects/players/sprites/Lucas/L_latk.png" afterDir="false" />
+    <list default="true" id="bb31c947-7299-4cf2-bb0b-507a6c9ea016" name="Default Changelist" comment="Added Lucas">
+      <change afterPath="$PROJECT_DIR$/src/gameobjects/players/arend.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/scenes.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/scenes.py" afterDir="false" />
     </list>
@@ -74,7 +70,14 @@
       <option name="project" value="LOCAL" />
       <updated>1623256750296</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Added Lucas">
+      <created>1623282788470</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1623282788470</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -105,6 +108,7 @@
     <MESSAGE value="committed" />
     <MESSAGE value="newest build with my imports" />
     <MESSAGE value="Isaac's sprites implemented. Commit2" />
-    <option name="LAST_COMMIT_MESSAGE" value="Isaac's sprites implemented. Commit2" />
+    <MESSAGE value="Added Lucas" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added Lucas" />
   </component>
 </project>
