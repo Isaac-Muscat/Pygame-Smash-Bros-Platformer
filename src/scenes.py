@@ -12,6 +12,7 @@ from physics.collider2 import CircleCollider2, BoxCollider2
 import physics.vector2 as vec
 p1 = 1
 p2 = 1
+# I know this is messy. I'm sorry. I don't know if we'll have time to fix it.
 
 class Scene(object):
     def __init__(self):
