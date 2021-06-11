@@ -61,11 +61,20 @@ class MainMenu(Scene):
         screen.blit(self.startbtn, ((s.h_s_s[0] - int((s.s_s[0]) / 16), int(s.h_s_s[1] * 1.5))))
 
 
-
 class CharacterSelect(Scene):
     def __init__(self):
         super().__init__()
-        self.box1 = BoxCollider2(480, 650, 700, 700)
+        self.startbtn = pygame.image.load("gameobjects/players/sprites/Menus/Main/StartBtn.png")
+        self.startbtn = pygame.transform.scale(self.startbtn, (int((s.s_s[0]) / 8), int((s.s_s[1]) / 10)))
+        self.selector = pygame.image.load("gameobjects/players/sprites/Menus/CharSel/selector.png")
+        self.selector = pygame.transform.scale(self.selector, (800, 400))
+        self.choose = pygame.image.load("gameobjects/players/sprites/Menus/CharSel/choose.png")
+        self.choose = pygame.transform.scale(self.choose, (1440, 200))
+        self.box1 = BoxCollider2(s.h_s_s[0] - int((s.s_s[0]) / 16),  # x1
+                                 int(s.h_s_s[1] * 1.5),  # y1
+                                 s.h_s_s[0] - int((s.s_s[0]) / 16) + int((s.s_s[0]) / 8),  # x2
+                                 int(s.h_s_s[1] * 1.5) + int((s.s_s[1]) / 10))  # y2
+
 
     def process_input(self, events, pressed_keys):
         x, y = pygame.mouse.get_pos()
@@ -78,14 +87,12 @@ class CharacterSelect(Scene):
         pass
 
     def display(self, screen):
-        screen.fill(s.PURPLE)
-        self.box1.draw_collider(screen, s.WHITE)
-        pygame.font.init()
-        font = pygame.font.SysFont("Arial", 30)
-        start = font.render("Start", False, (0, 0, 0))
-        center = start.get_rect(center=(self.box1.center.x, self.box1.center.y))
-        screen.blit(start, center)
 
+        self.box1.draw_collider(screen, s.WHITE)
+        screen.fill(s.PURPLE)
+        screen.blit(self.selector, ((s.h_s_s[0] - 400), (s.h_s_s[1]) - 200))
+        screen.blit(self.startbtn, ((s.h_s_s[0] - int((s.s_s[0]) / 16), int(s.h_s_s[1] * 1.5))))
+        screen.blit(self.choose, (0, 0))
 
 class GameScene(Scene):
     # TODO Must add a list of players and change organization of functions into individual player classes
