@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="bb31c947-7299-4cf2-bb0b-507a6c9ea016" name="Default Changelist" comment="Added graphics for character select">
-      <change afterPath="$PROJECT_DIR$/src/gameobjects/players/sprites/Menus/CharSel/Player 1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/scenes.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/scenes.py" afterDir="false" />
-    </list>
+    <list default="true" id="bb31c947-7299-4cf2-bb0b-507a6c9ea016" name="Default Changelist" comment="Added graphics for character select" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -106,7 +102,28 @@
       <option name="project" value="LOCAL" />
       <updated>1623381705982</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Added graphics for character select">
+      <created>1623389748105</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1623389748105</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Added graphics for character select">
+      <created>1623389776794</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1623389776794</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Added graphics for character select">
+      <created>1623389882471</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1623389882471</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -140,6 +157,7 @@
     <MESSAGE value="Added Lucas" />
     <MESSAGE value="Added Lucas and Arend" />
     <MESSAGE value="Added Lucas and Arend, main menu complete" />
+    <MESSAGE value="Character select is functional but the code is a hot mess." />
     <MESSAGE value="Added graphics for character select" />
     <option name="LAST_COMMIT_MESSAGE" value="Added graphics for character select" />
   </component>
