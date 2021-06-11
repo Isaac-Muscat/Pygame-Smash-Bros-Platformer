@@ -12,7 +12,7 @@ def main():
     pygame.display.set_caption("Duper Crash Bros")
     clock = pygame.time.Clock()
     time = clock.tick(s.FPS)
-    active_scene = GameScene()
+    active_scene = MainMenu()
 
     # UPDATE - Main Loop
     while active_scene is not None:

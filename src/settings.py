@@ -7,7 +7,7 @@ FPS = 60
 
 # screen size
 s_s = (1440, 900)
-h_s_s = (s_s[0]/2, s_s[1]/2)
+h_s_s = (int(s_s[0]/2), int(s_s[1]/2))
 map_multiplier = 1.5
 
 # Key bindings for players
