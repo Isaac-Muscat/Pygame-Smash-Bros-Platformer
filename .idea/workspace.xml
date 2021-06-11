@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="bb31c947-7299-4cf2-bb0b-507a6c9ea016" name="Default Changelist" comment="Added Lucas and Arend">
-      <change afterPath="$PROJECT_DIR$/src/gameobjects/players/sprites/Menus/Main/MainMenu.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/gameobjects/players/sprites/Menus/Main/StartBtn.png" afterDir="false" />
+    <list default="true" id="bb31c947-7299-4cf2-bb0b-507a6c9ea016" name="Default Changelist" comment="Added graphics for character select">
+      <change afterPath="$PROJECT_DIR$/src/gameobjects/players/sprites/Menus/CharSel/Player 1.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gameobjects/players/arend.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/gameobjects/players/arend.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/scenes.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/scenes.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/settings.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,6 +20,14 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
   </component>
   <component name="ProjectId" id="1tcvizRIJ68HzQpizMtHimapfCZ" />
   <component name="ProjectViewState">
@@ -88,7 +92,21 @@
       <option name="project" value="LOCAL" />
       <updated>1623284497208</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Added Lucas and Arend, main menu complete">
+      <created>1623287528693</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1623287528693</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Added graphics for character select">
+      <created>1623381705982</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1623381705982</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -121,6 +139,8 @@
     <MESSAGE value="Isaac's sprites implemented. Commit2" />
     <MESSAGE value="Added Lucas" />
     <MESSAGE value="Added Lucas and Arend" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added Lucas and Arend" />
+    <MESSAGE value="Added Lucas and Arend, main menu complete" />
+    <MESSAGE value="Added graphics for character select" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added graphics for character select" />
   </component>
 </project>

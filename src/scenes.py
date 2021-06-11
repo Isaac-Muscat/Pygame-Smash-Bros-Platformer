@@ -10,11 +10,13 @@ import gameobjects.players.lucas as l
 import gameobjects.players.arend as ar
 from physics.collider2 import CircleCollider2, BoxCollider2
 import physics.vector2 as vec
-
+p1 = 1
+p2 = 1
 
 class Scene(object):
     def __init__(self):
         self.next = self
+
 
     def process_input(self, events, pressed_keys):
         print("You didn't override this in the child class.")
@@ -61,31 +63,75 @@ class MainMenu(Scene):
         screen.blit(self.startbtn, ((s.h_s_s[0] - int((s.s_s[0]) / 16), int(s.h_s_s[1] * 1.5))))
 
 
-
 class CharacterSelect(Scene):
     def __init__(self):
         super().__init__()
-        self.box1 = BoxCollider2(480, 650, 700, 700)
+        self.startbtn = pygame.image.load("gameobjects/players/sprites/Menus/Main/StartBtn.png")
+        self.startbtn = pygame.transform.scale(self.startbtn, (int((s.s_s[0]) / 8), int((s.s_s[1]) / 10)))
+        self.selector1 = pygame.image.load("gameobjects/players/sprites/Menus/CharSel/selector.png")
+        self.selector1 = pygame.transform.scale(self.selector1, (600, 300))
+        self.selector2 = pygame.image.load("gameobjects/players/sprites/Menus/CharSel/selector.png")
+        self.selector2 = pygame.transform.scale(self.selector2, (600, 300))
+        self.choose = pygame.image.load("gameobjects/players/sprites/Menus/CharSel/choose.png")
+        self.choose = pygame.transform.scale(self.choose, (1440, 200))
+        self.pl1 = pygame.image.load("gameobjects/players/sprites/Menus/CharSel/Player 1.png")
+        self.pl1 = pygame.transform.scale(self.pl1, (250, 45))
+        self.pl2 = pygame.image.load("gameobjects/players/sprites/Menus/CharSel/Player 2 .png")
+        self.pl2 = pygame.transform.scale(self.pl2, (250, 45))
+        self.box1 = BoxCollider2(s.h_s_s[0] - int((s.s_s[0]) / 16),  # x1
+                                 int(s.h_s_s[1] * 1.5),  # y1
+                                 s.h_s_s[0] - int((s.s_s[0]) / 16) + int((s.s_s[0]) / 8),  # x2
+                                 int(s.h_s_s[1] * 1.5) + int((s.s_s[1]) / 10))  # y2
+        self.iBox1 = BoxCollider2(145, 270, 275, 530)
+        self.aBox1 = BoxCollider2(290, 270, 410, 530)
+        self.jBox1 = BoxCollider2(430, 270, 560, 530)
+        self.lBox1 = BoxCollider2(570, 270, 700, 530)
+
+        self.iBox2 = BoxCollider2(750, 270, 875, 530)
+        self.aBox2 = BoxCollider2(890, 270, 1010, 530)
+        self.jBox2 = BoxCollider2(1030, 270, 1150, 530)
+        self.lBox2 = BoxCollider2(1175, 270, 1300, 530)
 
     def process_input(self, events, pressed_keys):
+        global p1
+        global p2
         x, y = pygame.mouse.get_pos()
         for event in events:
             if event.type == pygame.MOUSEBUTTONDOWN:
+                print(x, y)
                 if self.box1.point_has_collided(x, y):
                     self.switch_to_scene(GameScene())
+                elif self.iBox1.point_has_collided(x, y):
+                    p1 = 1
+                elif self.aBox1.point_has_collided(x, y):
+                    p1 = 2
+                elif self.jBox1.point_has_collided(x, y):
+                    p1 = 3
+                elif self.lBox1.point_has_collided(x, y):
+                    p1 = 4
+
+                elif self.iBox2.point_has_collided(x, y):
+                    p2 = 1
+                elif self.aBox2.point_has_collided(x, y):
+                    p2 = 2
+                elif self.jBox2.point_has_collided(x, y):
+                    p2 = 3
+                elif self.lBox2.point_has_collided(x, y):
+                    p2 = 4
 
     def update(self, clock):
         pass
 
     def display(self, screen):
-        screen.fill(s.PURPLE)
-        self.box1.draw_collider(screen, s.WHITE)
-        pygame.font.init()
-        font = pygame.font.SysFont("Arial", 30)
-        start = font.render("Start", False, (0, 0, 0))
-        center = start.get_rect(center=(self.box1.center.x, self.box1.center.y))
-        screen.blit(start, center)
 
+        self.box1.draw_collider(screen, s.WHITE)
+        screen.fill(s.PURPLE)
+        screen.blit(self.selector1, ((s.h_s_s[0] - 600), (s.h_s_s[1]) - 200))
+        screen.blit(self.selector2, ((s.h_s_s[0]), (s.h_s_s[1]) - 200))
+        screen.blit(self.startbtn, ((s.h_s_s[0] - int((s.s_s[0]) / 16), int(s.h_s_s[1] * 1.5))))
+        screen.blit(self.choose, (0, 0))
+        screen.blit(self.pl1, ((s.h_s_s[0] - 300), (s.h_s_s[1] + 100)))
+        screen.blit(self.pl2, ((s.h_s_s[0] + 50), (s.h_s_s[1] + 100)))
 
 class GameScene(Scene):
     # TODO Must add a list of players and change organization of functions into individual player classes
@@ -95,9 +141,27 @@ class GameScene(Scene):
         self.map_s = (int(s.s_s[0] * s.map_multiplier), int(s.s_s[1] * s.map_multiplier))
         self.offset = ((self.map_s[0] - s.s_s[0]) / 2, (self.map_s[1] - s.s_s[1]) / 2)
         self.buffer = pygame.surface.Surface(self.map_s)
+        global p1
+        global p2
 
-        self.players = [ar.Arend(self.map_s[0] * 0.4, self.map_s[1] * 0.1, s.p1_bindings),
-                        l.Lucas(self.map_s[0] * 0.6, self.map_s[1] * 0.1, s.p2_bindings, direction_facing=-1)]
+        if p1 == 1:
+            self.pl1 = i.Isaac(self.map_s[0] * 0.4, self.map_s[1] * 0.1, s.p1_bindings)
+        elif p1 == 2:
+            self.pl1 = ar.Arend(self.map_s[0] * 0.4, self.map_s[1] * 0.1, s.p1_bindings)
+        elif p1 == 3:
+            self.pl1 = j.Jonah(self.map_s[0] * 0.4, self.map_s[1] * 0.1, s.p1_bindings)
+        elif p1 == 4:
+            self.pl1 = l.Lucas(self.map_s[0] * 0.4, self.map_s[1] * 0.1, s.p1_bindings)
+
+        if p2 == 1:
+            self.pl2 = i.Isaac(self.map_s[0] * 0.6, self.map_s[1] * 0.1, s.p2_bindings, direction_facing=-1)
+        elif p2 == 2:
+            self.pl2 = ar.Arend(self.map_s[0] * 0.6, self.map_s[1] * 0.1, s.p2_bindings, direction_facing=-1)
+        elif p2 == 3:
+            self.pl2 = j.Jonah(self.map_s[0] * 0.6, self.map_s[1] * 0.1, s.p2_bindings, direction_facing=-1)
+        elif p2 == 4:
+            self.pl2 = l.Lucas(self.map_s[0] * 0.6, self.map_s[1] * 0.1, s.p2_bindings, direction_facing=-1)
+        self.players = [self.pl1, self.pl2]
 
         self.obstacles = [
             platform.Platform(self.map_s[0] * 0.3, self.map_s[1] * 0.6, self.map_s[0] * 0.7, self.map_s[1] * 0.55,
