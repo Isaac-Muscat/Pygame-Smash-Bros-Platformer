@@ -7,7 +7,7 @@ import settings as s
 
 class Arend(Player):
     def __init__(self, x, y, key_bindings, **settings):
-        settings['width']=45
+        settings['width']=25
         settings['height']=90
         super().__init__(x, y, key_bindings, **settings)
         self.sprites = {'jump':pygame.image.load("gameobjects/players/sprites/Arend/a_Jump.png"),
