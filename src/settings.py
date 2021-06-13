@@ -5,7 +5,7 @@ import pygame
 DEBUG = False
 FPS = 60
 
-# screen size
+# screen size, used as a scalar for graphics
 s_s = (1440, 900)
 h_s_s = (int(s_s[0]/2), int(s_s[1]/2))
 map_multiplier = 1.5

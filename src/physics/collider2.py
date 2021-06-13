@@ -37,13 +37,13 @@ class BoxCollider2(Collider2):
 
         self.set_pos_values()
 
-    #set width, height, and ceneter of box
+    # set width, height, and center of box
     def set_pos_values(self):
         self.width = self.p2.x - self.p1.x
         self.height = self.p2.y - self.p1.y
         self.center = Vector2(self.p1.x + self.width / 2, self.p1.y + self.height / 2)
 
-    #Sets the position of the collider using upper left (Defualt pygame coords)
+    # Sets the position of the collider using upper left (Default pygame coords)
     def set_position(self, x, y):
         self.p1.x = x
         self.p1.y = y

@@ -7,9 +7,11 @@ import settings as s
 
 class Jonah(Player):
     def __init__(self, x, y, key_bindings, **settings):
+        # Hitbox dimensions
         settings['width']=45
         settings['height']=90
         super().__init__(x, y, key_bindings, **settings)
+
         self.sprites = {'jump':pygame.image.load("gameobjects/players/sprites/Jonah/jump1.png"),
                         'walk':[pygame.image.load("gameobjects/players/sprites/Jonah/walk2.png"), pygame.image.load("gameobjects/players/sprites/Jonah/stand1.png")],
                         'stand':pygame.image.load("gameobjects/players/sprites/Jonah/stand1.png"),

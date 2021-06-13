@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="bb31c947-7299-4cf2-bb0b-507a6c9ea016" name="Default Changelist" comment="Made the HP font red&#10;Added endscreen&#10;Implemented respawn" />
+    <list default="true" id="bb31c947-7299-4cf2-bb0b-507a6c9ea016" name="Default Changelist" comment="Made the HP font red&#10;Added endscreen&#10;Implemented respawn&#10;Added sprites">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gameobjects/players/jonah.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/gameobjects/players/jonah.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/physics/collider2.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/physics/collider2.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/scenes.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/scenes.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/settings.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -137,7 +144,14 @@
       <option name="project" value="LOCAL" />
       <updated>1623555076743</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="Made the HP font red&#10;Added endscreen&#10;Implemented respawn&#10;Added sprites">
+      <created>1623603844409</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1623603844410</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -175,6 +189,7 @@
     <MESSAGE value="Added graphics for character select" />
     <MESSAGE value="Characterselect is functional but messy" />
     <MESSAGE value="Made the HP font red&#10;Added endscreen&#10;Implemented respawn" />
-    <option name="LAST_COMMIT_MESSAGE" value="Made the HP font red&#10;Added endscreen&#10;Implemented respawn" />
+    <MESSAGE value="Made the HP font red&#10;Added endscreen&#10;Implemented respawn&#10;Added sprites" />
+    <option name="LAST_COMMIT_MESSAGE" value="Made the HP font red&#10;Added endscreen&#10;Implemented respawn&#10;Added sprites" />
   </component>
 </project>
