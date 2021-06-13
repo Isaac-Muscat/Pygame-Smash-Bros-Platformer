@@ -1,3 +1,7 @@
+# Author: Isaac Muscat and Jonah D'Monte
+# Date: Sunday, June 13, 2021
+# Description: A Super Smash Bros clone using the PyGame module
+
 # Packages, Libraries, and Modules
 from scenes import GameScene, MainMenu, PostGameP1, PostGameP2, CharacterSelect
 import settings as s

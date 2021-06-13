@@ -10,11 +10,11 @@ import gameobjects.players.lucas as l
 import gameobjects.players.arend as ar
 from physics.collider2 import CircleCollider2, BoxCollider2
 import physics.vector2 as vec
-p1 = 1
+p1 = 1 # Global variables to move between scenes
 p2 = 1
-# I know this is messy. I'm sorry. I don't know if we'll have time to fix it.
 
-class Scene(object):
+
+class Scene(object): # Base scene class
     def __init__(self):
         self.next = self
 
@@ -39,6 +39,7 @@ class MainMenu(Scene):
     def __init__(self):
         super().__init__()
 
+        # Image import and scaling
         self.titlescreen = pygame.image.load("gameobjects/players/sprites/Menus/Main/MainMenu.png")
         self.titlescreen = pygame.transform.scale(self.titlescreen, s.s_s)
         self.startbtn = pygame.image.load("gameobjects/players/sprites/Menus/Main/StartBtn.png")
@@ -48,6 +49,7 @@ class MainMenu(Scene):
                                  s.h_s_s[0] - int((s.s_s[0]) / 16) + int((s.s_s[0]) / 8),  # x2
                                  int(s.h_s_s[1] * 1.5) + int((s.s_s[1]) / 10))  # y2
 
+    #
     def process_input(self, events, pressed_keys):
         x, y = pygame.mouse.get_pos()
         for event in events:
@@ -83,12 +85,14 @@ class CharacterSelect(Scene):
                                  int(s.h_s_s[1] * 1.5),  # y1
                                  s.h_s_s[0] - int((s.s_s[0]) / 16) + int((s.s_s[0]) / 8),  # x2
                                  int(s.h_s_s[1] * 1.5) + int((s.s_s[1]) / 10))  # y2
-        self.iBox1 = BoxCollider2(145, 270, 275, 530)
+
+        # Hitboxes for each character selector
+        self.iBox1 = BoxCollider2(145, 270, 275, 530) # Player 1
         self.aBox1 = BoxCollider2(290, 270, 410, 530)
         self.jBox1 = BoxCollider2(430, 270, 560, 530)
         self.lBox1 = BoxCollider2(570, 270, 700, 530)
 
-        self.iBox2 = BoxCollider2(750, 270, 875, 530)
+        self.iBox2 = BoxCollider2(750, 270, 875, 530) # Player 2
         self.aBox2 = BoxCollider2(890, 270, 1010, 530)
         self.jBox2 = BoxCollider2(1030, 270, 1150, 530)
         self.lBox2 = BoxCollider2(1175, 270, 1300, 530)
@@ -135,7 +139,7 @@ class CharacterSelect(Scene):
         screen.blit(self.pl2, ((s.h_s_s[0] + 50), (s.h_s_s[1] + 100)))
 
 class GameScene(Scene):
-    # TODO Must add a list of players and change organization of functions into individual player classes
+
     def __init__(self):
         super().__init__()
         self.percent_font = pygame.font.SysFont("Arial", 100)
@@ -145,6 +149,7 @@ class GameScene(Scene):
         global p1
         global p2
 
+        # Detect and spawn Player 1's character choice
         if p1 == 1:
             self.pl1 = i.Isaac(self.map_s[0] * 0.4, self.map_s[1] * 0.1, s.p1_bindings)
         elif p1 == 2:
@@ -154,6 +159,7 @@ class GameScene(Scene):
         elif p1 == 4:
             self.pl1 = l.Lucas(self.map_s[0] * 0.4, self.map_s[1] * 0.1, s.p1_bindings)
 
+        # Detect and spawn Player 2's character choice
         if p2 == 1:
             self.pl2 = i.Isaac(self.map_s[0] * 0.6, self.map_s[1] * 0.1, s.p2_bindings, direction_facing=-1)
         elif p2 == 2:
@@ -164,6 +170,7 @@ class GameScene(Scene):
             self.pl2 = l.Lucas(self.map_s[0] * 0.6, self.map_s[1] * 0.1, s.p2_bindings, direction_facing=-1)
         self.players = [self.pl1, self.pl2]
 
+        # Spawn map
         self.obstacles = [
             platform.Platform(self.map_s[0] * 0.3, self.map_s[1] * 0.6, self.map_s[0] * 0.7, self.map_s[1] * 0.55,
                               s.GREEN),
@@ -181,6 +188,8 @@ class GameScene(Scene):
             player.process_inputs(event_keys, keys)
 
     def update(self, time):
+        # Check for dead players, move to winner's post-game screen
+
         if self.players[0].lives == 0:
             self.switch_to_scene(PostGameP2())
         elif self.players[1].lives == 0:
