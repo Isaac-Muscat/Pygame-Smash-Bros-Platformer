@@ -181,6 +181,10 @@ class GameScene(Scene):
             player.process_inputs(event_keys, keys)
 
     def update(self, time):
+        if self.players[0].lives == 0:
+            self.switch_to_scene(PostGameP2())
+        elif self.players[1].lives == 0:
+            self.switch_to_scene(PostGameP1())
         for player in self.players:
 
             # Handle player attacks
@@ -262,9 +266,76 @@ class GameScene(Scene):
         screen.blit(pygame.transform.scale(self.buffer, self.map_s),
                     (translation.x - self.offset[0], translation.y - self.offset[1]))
 
-        # Display health
+        # Display health and lives
         for i in range(len(self.players)):
             stats = self.percent_font.render(str(round(self.players[i].damage_percentage * 100)) + '%', False,
-                                             (0, 0, 0))
+                                             (255, 0, 100))
             center = stats.get_rect(center=(self.offset[0] + self.map_s[0] * 0.3 * i, self.map_s[1] * 0.5))
+
+            lives = self.percent_font.render("Lives: " + str(round(self.players[i].lives)), False,
+                                             (255, 0, 100))
             screen.blit(stats, center)
+            screen.blit(lives, (center[0], center[1] + 100))
+
+
+class PostGameP1(Scene):
+    def __init__(self):
+        super().__init__()
+
+        self.titlescreen = pygame.image.load("gameobjects/players/sprites/Menus/Postgame/Postgame.png")
+        self.titlescreen = pygame.transform.scale(self.titlescreen, s.s_s)
+        self.player1 = pygame.image.load("gameobjects/players/sprites/Menus/Postgame/player1.png")
+
+
+        self.box1 = BoxCollider2(76, 665, 800, 740)
+        self.box2 = BoxCollider2(916, 665, 1215, 730)
+
+    def process_input(self, events, pressed_keys):
+        x, y = pygame.mouse.get_pos()
+        for event in events:
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if self.box1.point_has_collided(x, y):
+                    self.switch_to_scene(CharacterSelect())
+                elif self.box2.point_has_collided(x, y):
+                    self.terminate()
+
+    def update(self, clock):
+        pass
+
+    def display(self, screen):
+        self.box1.draw_collider(screen, s.WHITE)
+        screen.blit(self.titlescreen, (0, 0))
+
+        screen.blit(self.player1, (700, 10))
+
+
+class PostGameP2(Scene):
+    def __init__(self):
+        super().__init__()
+
+        self.titlescreen = pygame.image.load("gameobjects/players/sprites/Menus/Postgame/Postgame.png")
+        self.titlescreen = pygame.transform.scale(self.titlescreen, s.s_s)
+
+        self.player2 = pygame.image.load("gameobjects/players/sprites/Menus/Postgame/player2.png")
+
+        self.box1 = BoxCollider2(76, 665, 800, 740)
+        self.box2 = BoxCollider2(916, 665, 1215, 730)
+
+    def process_input(self, events, pressed_keys):
+        x, y = pygame.mouse.get_pos()
+        for event in events:
+            if event.type == pygame.MOUSEBUTTONDOWN:
+
+                if self.box1.point_has_collided(x, y):
+                    self.switch_to_scene(CharacterSelect())
+                elif self.box2.point_has_collided(x, y):
+                    self.terminate()
+
+    def update(self, clock):
+        pass
+
+    def display(self, screen):
+        self.box1.draw_collider(screen, s.WHITE)
+        screen.blit(self.titlescreen, (0, 0))
+
+        screen.blit(self.player2, (700, 10))

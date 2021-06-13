@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="bb31c947-7299-4cf2-bb0b-507a6c9ea016" name="Default Changelist" comment="Added graphics for character select" />
+    <list default="true" id="bb31c947-7299-4cf2-bb0b-507a6c9ea016" name="Default Changelist" comment="Characterselect is functional but messy">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gameobjects/players/arend.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/gameobjects/players/arend.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gameobjects/players/player.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/gameobjects/players/player.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/scenes.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/scenes.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -123,7 +129,14 @@
       <option name="project" value="LOCAL" />
       <updated>1623389882471</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Characterselect is functional but messy">
+      <created>1623389935380</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1623389935380</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -159,6 +172,7 @@
     <MESSAGE value="Added Lucas and Arend, main menu complete" />
     <MESSAGE value="Character select is functional but the code is a hot mess." />
     <MESSAGE value="Added graphics for character select" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added graphics for character select" />
+    <MESSAGE value="Characterselect is functional but messy" />
+    <option name="LAST_COMMIT_MESSAGE" value="Characterselect is functional but messy" />
   </component>
 </project>

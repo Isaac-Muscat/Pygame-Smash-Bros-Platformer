@@ -1,5 +1,5 @@
 # Packages, Libraries, and Modules
-from scenes import GameScene, MainMenu
+from scenes import GameScene, MainMenu, PostGameP1, PostGameP2, CharacterSelect
 import settings as s
 import pygame
 
@@ -40,6 +40,7 @@ def main():
         active_scene.process_input(filtered_events, pressed_keys)
         active_scene.update(time)
         active_scene.display(screen)
+
 
         active_scene = active_scene.next
 

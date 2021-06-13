@@ -59,3 +59,8 @@ class Player(Rigidbody):
         if self.frames_in_tumble > 0:
             self.frames_in_tumble -= time * s.FPS / 1000
             self.frames_in_tumble = vec.clamp(self.frames_in_tumble, 0, 100000)
+
+        if self.position.y > 1400:
+            self.position.x = (1000)
+            self.position.y = (400)
+            self.lives += -1
