@@ -35,11 +35,11 @@ class Arend(Player):
                 self.attack_collider = self.get_normal_attack()
 
             if key == self.key_bindings['heavy'] and self.frames_in_tumble == 0 and self.attack_collider is None:
-                offset_1 = vec.Vector2(0, -self.collider.height * 0.3)
-                offset_2 = vec.Vector2(1.8 * self.collider.width, +self.collider.height * 0.1)
+                offset_1 = vec.Vector2(-20, -self.collider.height * 0.3)
+                offset_2 = vec.Vector2(2 * self.collider.width, +self.collider.height * 0.1)
                 self.attack_collider = a.OrbAttack(self.collider.center.x, self.collider.center.y, local_p1=offset_1,
-                                                    local_p2=offset_2, velocity=self.direction_facing*s.FPS/2,
-                                                   percent_damage=0.03, stun_duration=s.FPS*0.05, knockback_force=4)
+                                                    local_p2=offset_2, velocity=self.direction_facing*s.FPS*0.6,
+                                                   percent_damage=0.03, stun_duration=s.FPS*0.05, knockback_force=5)
 
         if keys[self.key_bindings['left']] and self.velocity.x > -self.max_runspeed and self.frames_in_tumble == 0 and self.attack_collider is None:
             if self.velocity.x > 0 and self.grounded_on:
@@ -61,7 +61,7 @@ class Arend(Player):
         offset_1 = vec.Vector2(0, -self.collider.height*0.5)
         offset_2 = vec.Vector2(3*self.collider.width, -self.collider.height*0.1)
         return a.NormalAttack(self.collider.center.x, self.collider.center.y, local_p1=offset_1, local_p2=offset_2,
-                              knockback_force=6, knockback_direction=vec.Vector2(1,-1))
+                              knockback_force=7, knockback_direction=vec.Vector2(1,-1))
 
     # Put all logic for normal attacks here like tilt and arial attacks
     def get_normal_attack(self):

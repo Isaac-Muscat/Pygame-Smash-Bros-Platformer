@@ -15,7 +15,7 @@ class Player(Rigidbody):
         self.max_runspeed = settings.get('max_runspeed', 0.8)
         self.gravity_coef = settings.get('gravity_coef', 0.22)
         self.friction_coef = settings.get('friction_coef', 0.05)
-        self.drag_coef = settings.get('drag_coef', 0.3)
+        self.drag_coef = settings.get('drag_coef', 0.1)
         self.jump_force = settings.get('jump_force', Vector2(0, -10))
         self.run_force = settings.get('run_force', Vector2(0.3, 0))
         self.jumps = settings.get('jumps', 4)
@@ -60,7 +60,7 @@ class Player(Rigidbody):
             self.frames_in_tumble -= time * s.FPS / 1000
             self.frames_in_tumble = vec.clamp(self.frames_in_tumble, 0, 100000)
 
-        if self.position.y > 1400:
+        if self.position.y > 1400 or self.position.y < -300 or -300>self.position.x or self.position.x>2400:
             self.position.x = (1000)
             self.position.y = (400)
             self.lives += -1

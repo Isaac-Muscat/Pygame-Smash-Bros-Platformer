@@ -211,7 +211,6 @@ class GameScene(Scene):
                     player_2.frames_in_tumble = player.attack_collider.stun_duration+s.FPS*player_2.damage_percentage/2
                     attack.set_active(False)
                     # Move attacking player to end of list for drawing overtop other player
-                    self.players.append(self.players.pop(self.players.index(player)))
 
             # Handle obstacle collision
             for obstacle in self.obstacles:
@@ -255,6 +254,16 @@ class GameScene(Scene):
         # Display background
         self.buffer.fill(s.SKYBLUE)
         self.sun.draw_collider(self.buffer, s.YELLOW)
+
+
+
+        # Uncomment for Blue and red id bars
+        '''pygame.draw.rect(self.buffer, s.RED,
+            pygame.Rect(self.players[0].collider.p1.x, self.players[0].collider.p1.y-20,
+                        75, 10))
+        pygame.draw.rect(self.buffer, s.BLUE,
+                         pygame.Rect(self.players[1].collider.p1.x, self.players[1].collider.p1.y-20,
+                        75, 10))#'''
 
         # Display physics objects
         for obstacle in self.obstacles:

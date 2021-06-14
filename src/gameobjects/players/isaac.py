@@ -9,8 +9,8 @@ class Isaac(Player):
         settings['width']=30
         settings['height']=100
         settings['run_force'] = vec.Vector2(0.5, 0)
-        settings['max_runspeed'] = 1
-        settings['jumps'] = 3
+        settings['max_runspeed'] = 1.4
+        settings['jumps'] = 4
         super().__init__(x, y, key_bindings, **settings)
         self.sprites = {'jump':pygame.image.load("gameobjects/players/sprites/Isaac/I_jump.png"),
                         'walk':[pygame.image.load("gameobjects/players/sprites/Isaac/I_walk.png"), pygame.image.load("gameobjects/players/sprites/Isaac/I_stand.png")],
@@ -55,10 +55,10 @@ class Isaac(Player):
 
     def get_forward_tilt_attack(self):
         offset_1 = vec.Vector2(0, -self.collider.height*0.7)
-        offset_2 = vec.Vector2(2*self.collider.width, -self.collider.height*0.1)
+        offset_2 = vec.Vector2(3*self.collider.width, -self.collider.height*0.1)
         return a.NormalAttack(self.collider.center.x, self.collider.center.y, local_p1=offset_1, local_p2=offset_2,
-                              knockback_force=5, knockback_direction=vec.Vector2(1, -1.5),
-                              peri_lag=s.FPS*0.3, post_lag=s.FPS*0.1)
+                              knockback_force=7, knockback_direction=vec.Vector2(1, -1.5),
+                              peri_lag=s.FPS*0.3, post_lag=0, percent_damage=0.15)
 
     # Put all logic for normal attacks here like tilt and arial attacks
     def get_normal_attack(self):
