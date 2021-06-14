@@ -81,10 +81,19 @@ class CharacterSelect(Scene):
         self.pl1 = pygame.transform.scale(self.pl1, (250, 45))
         self.pl2 = pygame.image.load("gameobjects/players/sprites/Menus/CharSel/Player 2 .png")
         self.pl2 = pygame.transform.scale(self.pl2, (250, 45))
+        self.highlight = pygame.image.load("gameobjects/players/sprites/Menus/CharSel/highlight.png")
+        self.highlight = pygame.transform.scale(self.highlight, (550-418, 530-255))
+        self.h1coords = (145, 260)
+        self.h2coords = (745, 260)
+        self.p1controls = pygame.image.load("gameobjects/players/sprites/Menus/CharSel/p1controls.png")
+        self.p1controls = pygame.transform.scale(self.p1controls, (300, 300))
+        self.p2controls = pygame.image.load("gameobjects/players/sprites/Menus/CharSel/p2controls.png")
+        self.p2controls = pygame.transform.scale(self.p2controls, (300, 300))
         self.box1 = BoxCollider2(s.h_s_s[0] - int((s.s_s[0]) / 16),  # x1
                                  int(s.h_s_s[1] * 1.5),  # y1
                                  s.h_s_s[0] - int((s.s_s[0]) / 16) + int((s.s_s[0]) / 8),  # x2
                                  int(s.h_s_s[1] * 1.5) + int((s.s_s[1]) / 10))  # y2
+
 
         # Hitboxes for each character selector
         self.iBox1 = BoxCollider2(145, 270, 275, 530) # Player 1
@@ -107,21 +116,29 @@ class CharacterSelect(Scene):
                     self.switch_to_scene(GameScene())
                 elif self.iBox1.point_has_collided(x, y):
                     p1 = 1
+                    self.h1coords = (145, 260)
                 elif self.aBox1.point_has_collided(x, y):
                     p1 = 2
+                    self.h1coords = (285, 260)
                 elif self.jBox1.point_has_collided(x, y):
                     p1 = 3
+                    self.h1coords = (425, 260)
                 elif self.lBox1.point_has_collided(x, y):
                     p1 = 4
+                    self.h1coords = (570, 260)
 
                 elif self.iBox2.point_has_collided(x, y):
                     p2 = 1
+                    self.h2coords = (745, 260)
                 elif self.aBox2.point_has_collided(x, y):
                     p2 = 2
+                    self.h2coords = (885, 260)
                 elif self.jBox2.point_has_collided(x, y):
                     p2 = 3
+                    self.h2coords = (1024, 260)
                 elif self.lBox2.point_has_collided(x, y):
                     p2 = 4
+                    self.h2coords = (1170, 260)
 
     def update(self, clock):
         pass
@@ -136,6 +153,10 @@ class CharacterSelect(Scene):
         screen.blit(self.choose, (0, 0))
         screen.blit(self.pl1, ((s.h_s_s[0] - 300), (s.h_s_s[1] + 100)))
         screen.blit(self.pl2, ((s.h_s_s[0] + 50), (s.h_s_s[1] + 100)))
+        screen.blit(self.highlight, self.h1coords)
+        screen.blit(self.highlight, self.h2coords)
+        screen.blit(self.p1controls, (250, 600))
+        screen.blit(self.p2controls, (900, 600))
 
 class GameScene(Scene):
 
