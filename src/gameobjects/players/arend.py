@@ -9,11 +9,13 @@ class Arend(Player):
     def __init__(self, x, y, key_bindings, **settings):
         settings['width']=25
         settings['height']=90
+        settings['max_fallspeed'] = 1.4
         super().__init__(x, y, key_bindings, **settings)
         self.sprites = {'jump':pygame.image.load("gameobjects/players/sprites/Arend/a_Jump.png"),
                         'walk':[pygame.image.load("gameobjects/players/sprites/Arend/a_Walk.png"), pygame.image.load("gameobjects/players/sprites/Arend/a_Stand.png")],
                         'stand':pygame.image.load("gameobjects/players/sprites/Arend/a_Stand.png"),
-                        'forward_tilt':pygame.image.load("gameobjects/players/sprites/Arend/a_latk.png")}
+                        'forward_tilt':pygame.image.load("gameobjects/players/sprites/Arend/a_latk.png"),
+                        'forward_heavy':pygame.image.load("gameobjects/players/sprites/Arend/musicNote.png")}
 
         self.frame_count = 0
         self.time_between_frames = 10
@@ -33,7 +35,11 @@ class Arend(Player):
                 self.attack_collider = self.get_normal_attack()
 
             if key == self.key_bindings['heavy'] and self.frames_in_tumble == 0 and self.attack_collider is None:
-                pass # self.attack_collider = self.get_heavy_attack()
+                offset_1 = vec.Vector2(0, -self.collider.height * 0.3)
+                offset_2 = vec.Vector2(1.8 * self.collider.width, +self.collider.height * 0.1)
+                self.attack_collider = a.OrbAttack(self.collider.center.x, self.collider.center.y, local_p1=offset_1,
+                                                    local_p2=offset_2, velocity=self.direction_facing*s.FPS/2,
+                                                   percent_damage=0.03, stun_duration=s.FPS*0.05, knockback_force=4)
 
         if keys[self.key_bindings['left']] and self.velocity.x > -self.max_runspeed and self.frames_in_tumble == 0 and self.attack_collider is None:
             if self.velocity.x > 0 and self.grounded_on:
@@ -53,8 +59,9 @@ class Arend(Player):
 
     def get_forward_tilt_attack(self):
         offset_1 = vec.Vector2(0, -self.collider.height*0.5)
-        offset_2 = vec.Vector2(2*self.collider.width, -self.collider.height*0.1)
-        return a.NormalAttack(self.collider.center.x, self.collider.center.y, local_p1=offset_1, local_p2=offset_2)
+        offset_2 = vec.Vector2(3*self.collider.width, -self.collider.height*0.1)
+        return a.NormalAttack(self.collider.center.x, self.collider.center.y, local_p1=offset_1, local_p2=offset_2,
+                              knockback_force=6, knockback_direction=vec.Vector2(1,-1))
 
     # Put all logic for normal attacks here like tilt and arial attacks
     def get_normal_attack(self):
@@ -80,6 +87,10 @@ class Arend(Player):
         if s.DEBUG: self.collider.draw_collider(screen, s.RED)
         if self.attack_collider is not None:
             self.image = self.sprites['forward_tilt']
+
+            if type(self.attack_collider) is a.OrbAttack:
+                attack = pygame.transform.scale(self.sprites['forward_heavy'], (50, 50))
+                screen.blit(attack, [self.attack_collider.p1.x, self.attack_collider.p1.y])
 
         # In the air
         elif not self.grounded_on:

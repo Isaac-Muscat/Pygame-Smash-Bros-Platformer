@@ -103,7 +103,6 @@ class CharacterSelect(Scene):
         x, y = pygame.mouse.get_pos()
         for event in events:
             if event.type == pygame.MOUSEBUTTONDOWN:
-                print(x, y)
                 if self.box1.point_has_collided(x, y):
                     self.switch_to_scene(GameScene())
                 elif self.iBox1.point_has_collided(x, y):

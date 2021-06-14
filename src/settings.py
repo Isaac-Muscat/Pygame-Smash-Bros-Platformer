@@ -2,7 +2,7 @@ import pygame
 
 # Variables
 
-DEBUG = True
+DEBUG = False
 FPS = 60
 
 # screen size, used as a scalar for graphics

@@ -10,12 +10,16 @@ class Jonah(Player):
         # Hitbox dimensions
         settings['width']=45
         settings['height']=90
+        settings["gravity_coef"] = 0.4
+        settings["max_fallspeed"] = 1.5
+        settings["jump_force"] = vec.Vector2(0, -15)
         super().__init__(x, y, key_bindings, **settings)
 
         self.sprites = {'jump':pygame.image.load("gameobjects/players/sprites/Jonah/jump1.png"),
                         'walk':[pygame.image.load("gameobjects/players/sprites/Jonah/walk2.png"), pygame.image.load("gameobjects/players/sprites/Jonah/stand1.png")],
                         'stand':pygame.image.load("gameobjects/players/sprites/Jonah/stand1.png"),
-                        'forward_tilt':pygame.image.load("gameobjects/players/sprites/Jonah/normalAttacks/forward_tilt.png")}
+                        'forward_tilt':pygame.image.load("gameobjects/players/sprites/Jonah/normalAttacks/forward_tilt.png"),
+                        'forward_special':pygame.image.load("gameobjects/players/sprites/Jonah/heavyAttacks/vine.png")}
 
         self.frame_count = 0
         self.time_between_frames = 10
@@ -35,7 +39,9 @@ class Jonah(Player):
                 self.attack_collider = self.get_normal_attack()
 
             if key == self.key_bindings['heavy'] and self.frames_in_tumble == 0 and self.attack_collider is None:
-                pass # self.attack_collider = self.get_heavy_attack()
+                offset_1 = vec.Vector2(0, +self.collider.height * 0.7)
+                offset_2 = vec.Vector2(6 * self.collider.width, +self.collider.height * 0.1)
+                self.attack_collider = a.VineAttack(self.collider.center.x, self.collider.center.y, local_p1=offset_1, local_p2=offset_2)
 
         if keys[self.key_bindings['left']] and self.velocity.x > -self.max_runspeed and self.frames_in_tumble == 0 and self.attack_collider is None:
             if self.velocity.x > 0 and self.grounded_on:
@@ -80,7 +86,7 @@ class Jonah(Player):
 
     def draw(self, screen):
         if s.DEBUG: self.collider.draw_collider(screen, s.RED)
-        if self.attack_collider is not None:
+        if self.attack_collider is not None and type(self.attack_collider) is a.NormalAttack:
             self.image = self.sprites['forward_tilt']
 
         # In the air
@@ -101,5 +107,15 @@ class Jonah(Player):
         if self.direction_facing == -1:
             self.image = pygame.transform.flip(self.image, True, False)
         screen.blit(self.image, [self.position.x-51, self.position.y-35])
+
+        if self.attack_collider is not None and type(self.attack_collider) is a.VineAttack:
+            attack = self.sprites['forward_special']
+            attack = pygame.transform.scale(attack, (300, 50))
+            if self.direction_facing == -1:
+                attack = pygame.transform.flip(attack, True, False)
+                screen.blit(attack, [self.position.x - 300, self.position.y+75])
+            else:
+                screen.blit(attack, [self.position.x+50, self.position.y+75])
+
 
 

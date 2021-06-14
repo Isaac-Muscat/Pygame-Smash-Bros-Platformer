@@ -9,6 +9,12 @@ class Lucas(Player):
     def __init__(self, x, y, key_bindings, **settings):
         settings['width']=45
         settings['height']=90
+        settings['jumps']=6
+        settings['max_runspeed'] = 1.4
+        settings['gravity_coef'] = 0.19
+        settings['run_force'] = vec.Vector2(0.15, 0)
+        settings['mass'] = 7
+
         super().__init__(x, y, key_bindings, **settings)
         self.sprites = {'jump':pygame.image.load("gameobjects/players/sprites/Lucas/L_Jump.png"),
                         'walk':[pygame.image.load("gameobjects/players/sprites/Lucas/L_Walk.png"), pygame.image.load("gameobjects/players/sprites/Lucas/L_Stand.png")],
@@ -33,7 +39,12 @@ class Lucas(Player):
                 self.attack_collider = self.get_normal_attack()
 
             if key == self.key_bindings['heavy'] and self.frames_in_tumble == 0 and self.attack_collider is None:
-                pass # self.attack_collider = self.get_heavy_attack()
+                self.add_force(vec.Vector2(self.direction_facing*13, 0))
+                offset_1 = vec.Vector2(0, -self.collider.height * 0.4)
+                offset_2 = vec.Vector2(2 * self.collider.width, +self.collider.height * 0.8)
+                self.attack_collider = a.NormalAttack(self.collider.center.x, self.collider.center.y, local_p1=offset_1,
+                                      local_p2=offset_2,
+                                      knockback_force=10, knockback_direction=vec.Vector2(1,0))
 
         if keys[self.key_bindings['left']] and self.velocity.x > -self.max_runspeed and self.frames_in_tumble == 0 and self.attack_collider is None:
             if self.velocity.x > 0 and self.grounded_on:
@@ -54,7 +65,8 @@ class Lucas(Player):
     def get_forward_tilt_attack(self):
         offset_1 = vec.Vector2(0, -self.collider.height*0.5)
         offset_2 = vec.Vector2(2*self.collider.width, -self.collider.height*0.1)
-        return a.NormalAttack(self.collider.center.x, self.collider.center.y, local_p1=offset_1, local_p2=offset_2)
+        return a.NormalAttack(self.collider.center.x, self.collider.center.y, local_p1=offset_1, local_p2=offset_2,
+                              knockback_force=13)
 
     # Put all logic for normal attacks here like tilt and arial attacks
     def get_normal_attack(self):

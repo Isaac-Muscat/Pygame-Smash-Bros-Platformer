@@ -64,3 +64,5 @@ class Player(Rigidbody):
             self.position.x = (1000)
             self.position.y = (400)
             self.lives += -1
+            self.damage_percentage = 0
+            self.frames_in_tumble = 0

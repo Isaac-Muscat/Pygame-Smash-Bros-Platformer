@@ -34,3 +34,37 @@ class NormalAttack(Attack):
             x_offset = 0
 
         self.set_position(player.collider.center.x+x_offset, player.collider.center.y-self.height+max(self.local_p1.y, self.local_p2.y))
+
+class OrbAttack(Attack):
+    def __init__(self, p_center_x, p_center_y, **settings):
+        settings['pre_lag'] = 0
+        settings['post_lag'] = 0
+        settings['peri_lag'] = s.FPS*0.3
+        self.local_p1 = settings.get('local_p1', vec.Vector2(0, 0))
+        self.local_p2 = settings.get('local_p2', vec.Vector2(0, 0))
+        self.velocity = settings.get('velocity', 1)
+        super().__init__(p_center_x + self.local_p1.x, p_center_y + self.local_p1.y,
+                         p_center_x + self.local_p2.x, p_center_y + self.local_p2.y, **settings)
+
+    def set_position_from_player(self, player):
+        self.set_position(self.p1.x+self.velocity, self.p1.y)
+
+class VineAttack(Attack):
+    def __init__(self, p_center_x, p_center_y, **settings): # p stands for 'player' - Ex: player_x
+        # Local is position relative to player or the offset
+        settings['peri_lag'] = s.FPS*0.6
+        settings['knockback_direction'] = vec.normalize(vec.Vector2(1, -1))
+        settings['knockback_force'] = 10
+        settings['stun_duration'] = s.FPS * 0.5
+        self.local_p1 = settings.get('local_p1', vec.Vector2(0, 0))
+        self.local_p2 = settings.get('local_p2', vec.Vector2(0, 0))
+        super().__init__(p_center_x+self.local_p1.x, p_center_y+self.local_p1.y,
+                         p_center_x+self.local_p2.x, p_center_y+self.local_p2.y, **settings)
+
+    def set_position_from_player(self, player):
+        if player.direction_facing == -1:
+            x_offset = -self.width
+        else:
+            x_offset = 0
+
+        self.set_position(player.collider.center.x+x_offset, player.collider.center.y-self.height+max(self.local_p1.y, self.local_p2.y))
