@@ -15,27 +15,63 @@ p2 = 1
 
 
 class Scene(object): # Base scene class
+    '''
+    This class is extended to create various scences to be used. It is to be used as an abstract class.
+    '''
     def __init__(self):
         self.next = self
 
 
     def process_input(self, events, pressed_keys):
+        '''
+        This is where all of the inputs for the scene is controlled.
+
+        :param events: the events of the program from pygame.events.
+        :param pressed_keys: the currently pressed keys.
+        :return: NA.
+        '''
         print("You didn't override this in the child class.")
 
-    def update(self, clock):
+    def update(self, time):
+        '''
+        This is where all the logic should be placed such as physics updates.
+
+        :param clock: the change in time since the last loop.
+        :return: NA.
+        '''
         print("You didn't override this in the child class.")
 
     def display(self, screen):
+        '''
+        This is where all of the drawing to the screen occurs.
+
+        :param screen: the screen to be drawn to.
+        :return: NA.
+        '''
         print("You didn't override this in the child class.")
 
     def switch_to_scene(self, next_scene):
+        '''
+        This links scenes together and it dictates which scene comes next.
+
+        :param next_scene: the next scene.
+        :return: NA.
+        '''
         self.next = next_scene
 
     def terminate(self):
+        '''
+        Stops and exits the program
+
+        :return: NA.
+        '''
         self.switch_to_scene(None)
 
 
 class MainMenu(Scene):
+    '''
+    This is the main title screen. It is the first scene the user sees
+    '''
     def __init__(self):
         super().__init__()
 
@@ -67,6 +103,9 @@ class MainMenu(Scene):
 
 
 class CharacterSelect(Scene):
+    '''
+    This is where player 1 and player 2 selects which character they will choose to play as.
+    '''
     def __init__(self):
         super().__init__()
         self.startbtn = pygame.image.load("gameobjects/players/sprites/Menus/Main/StartBtn.png")
@@ -159,13 +198,20 @@ class CharacterSelect(Scene):
         screen.blit(self.p2controls, (900, 600))
 
 class GameScene(Scene):
-
+    '''
+    This is the main scene where the two players can fight against each other.
+    '''
     def __init__(self):
         super().__init__()
+        # Dealing with the Map size and font.
         self.percent_font = pygame.font.SysFont("Arial", 100)
         self.map_s = (int(s.s_s[0] * s.map_multiplier), int(s.s_s[1] * s.map_multiplier))
         self.offset = ((self.map_s[0] - s.s_s[0]) / 2, (self.map_s[1] - s.s_s[1]) / 2)
+
+        # buffer image blitted to screen for translations of the scene.
         self.buffer = pygame.surface.Surface(self.map_s)
+
+        # Player 1 or Player 2 selection
         global p1
         global p2
 
@@ -200,6 +246,9 @@ class GameScene(Scene):
         self.sun = CircleCollider2(self.map_s[0] / 2, self.map_s[1] * 0.2 / 2, 100).set_active(False)
 
     def process_input(self, events, keys):
+        '''
+        All inputs passed to the player class (Jonah, Isaac, Arend, Lucas).
+        '''
         event_keys = []
         for event in events:
             if event.type == pygame.KEYDOWN:
@@ -208,21 +257,24 @@ class GameScene(Scene):
             player.process_inputs(event_keys, keys)
 
     def update(self, time):
-        # Check for dead players, move to winner's post-game screen
-
+        # Check for dead players, move to winner's post-game screen.
         if self.players[0].lives == 0:
             self.switch_to_scene(PostGameP2())
         elif self.players[1].lives == 0:
             self.switch_to_scene(PostGameP1())
         for player in self.players:
 
-            # Handle player attacks
+            # Handle player attacks @arrays/lists/dictionaries
             for player_2 in self.players:
+                # Current attack being evaluated.
                 attack = player.attack_collider
+                # Checks attack is in reference to opponent player and if there actually is an attack.
                 if player is not player_2 and attack is not None and attack.active is True and \
                         attack.collider_has_collided(player_2.collider) and \
                         attack.post_lag < attack.total_lag < \
                         attack.peri_lag + attack.post_lag:
+
+                    # Stuff to change and add if an attack has successfully collided. (Ex: adding a force).
                     player_2.velocity.multiply(0)
                     force = vec.multiply(attack.knockback_direction,
                                          attack.knockback_multiplier * (1 + player_2.damage_percentage))
@@ -231,9 +283,9 @@ class GameScene(Scene):
                     player_2.damage_percentage += player.attack_collider.percent_damage
                     player_2.frames_in_tumble = player.attack_collider.stun_duration+s.FPS*player_2.damage_percentage/2
                     attack.set_active(False)
-                    # Move attacking player to end of list for drawing overtop other player
 
-            # Handle obstacle collision
+            # Handle obstacle collision @arrays/lists/dictionaries
+            # Could be put into obstacles class
             for obstacle in self.obstacles:
                 if obstacle.player_collided_from_top(player):
                     player.jumps_left = player.jumps
@@ -252,11 +304,13 @@ class GameScene(Scene):
                     player.velocity.x = 0
                     player.position.x = obstacle.p2.x + 1
 
+            # Add force or not based on if the character is on a platform
             if player.velocity.y < 0 and player.grounded_on is not None:
                 player.grounded_on = None
             if player.velocity.y < player.max_fallspeed and player.grounded_on is None:
                 player.add_gravity(player.gravity_coef)
 
+            # Added the physics information to the player
             player.add_friction(player.friction_coef)
             player.add_drag(player.drag_coef)
             player.update(time)
@@ -276,8 +330,6 @@ class GameScene(Scene):
         self.buffer.fill(s.SKYBLUE)
         self.sun.draw_collider(self.buffer, s.YELLOW)
 
-
-
         # Uncomment for Blue and red id bars
         '''pygame.draw.rect(self.buffer, s.RED,
             pygame.Rect(self.players[0].collider.p1.x, self.players[0].collider.p1.y-20,
@@ -286,7 +338,7 @@ class GameScene(Scene):
                          pygame.Rect(self.players[1].collider.p1.x, self.players[1].collider.p1.y-20,
                         75, 10))#'''
 
-        # Display physics objects
+        # Display physics objects @arrays/lists/dictionaries
         for obstacle in self.obstacles:
             obstacle.draw_collider(self.buffer)
         for player in self.players:
@@ -294,13 +346,16 @@ class GameScene(Scene):
             if player.attack_collider is not None and s.DEBUG:
                 player.attack_collider.draw_collider(self.buffer, s.BLACK)
 
-        # Handle translating the camera view
+        # Handle translating the camera view by averaging the player positions
         dist_x = (self.players[0].collider.center.x + self.players[1].collider.center.x) / 2
         dist_y = (self.players[0].collider.center.y + self.players[1].collider.center.y) / 2
+
+        # Ensures the camera postition stays within a certain boundary
         translation = vec.Vector2(
             vec.clamp((self.map_s[0] / 2) - dist_x, (s.s_s[0] - self.map_s[0]) / 2, (self.map_s[0] - s.s_s[0]) / 2),
             vec.clamp((self.map_s[1] / 2) - dist_y, (s.s_s[1] - self.map_s[1]) / 2, (self.map_s[1] - s.s_s[1]) / 2))
 
+        # Diplays the buffer to the screen to be display based on the translation calulated above
         screen.blit(pygame.transform.scale(self.buffer, self.map_s),
                     (translation.x - self.offset[0], translation.y - self.offset[1]))
 
@@ -317,6 +372,9 @@ class GameScene(Scene):
 
 
 class PostGameP1(Scene):
+    '''
+    This is the ending scene if player one wins
+    '''
     def __init__(self):
         super().__init__()
 
@@ -348,6 +406,9 @@ class PostGameP1(Scene):
 
 
 class PostGameP2(Scene):
+    '''
+    This is the ending scene where player 2 wins
+    '''
     def __init__(self):
         super().__init__()
 

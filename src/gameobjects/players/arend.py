@@ -4,7 +4,7 @@ import gameobjects.players.attacks as a
 import pygame
 import settings as s
 
-
+# See Luca's character for detalied comments
 class Arend(Player):
     def __init__(self, x, y, key_bindings, **settings):
         settings['width']=25

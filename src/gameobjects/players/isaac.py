@@ -4,6 +4,7 @@ import gameobjects.players.attacks as a
 import pygame
 import settings as s
 
+# See Lucas's player for detailed comments.
 class Isaac(Player):
     def __init__(self, x, y, key_bindings, **settings):
         settings['width']=30

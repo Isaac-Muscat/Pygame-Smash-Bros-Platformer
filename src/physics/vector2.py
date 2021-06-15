@@ -2,6 +2,10 @@ import math
 
 
 class Vector2(object):
+    '''
+    This is a math class dealing with vectors and their operations used in physics and colliders.
+    This is a mutable class.
+    '''
     def __init__(self, x=0, y=0):
         self.x = x
         self.y = y
@@ -37,7 +41,7 @@ class Vector2(object):
     def clone(self):
         return Vector2(self.x, self.y)
 
-
+# List of static/non-object-related commands that return a vector instead of mutating the vector object
 def clamp_vector(vector, max_x, min_x, max_y, min_y):
     vector.x = clamp(vector.x, min_x, max_x)
     vector.y = clamp(vector.y, min_y, max_y)

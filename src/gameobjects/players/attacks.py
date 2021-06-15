@@ -3,6 +3,9 @@ import physics.vector2 as vec
 import settings as s
 
 class Attack(col.BoxCollider2):
+    '''
+    This class holds generic characteristics of any attack.
+    '''
     def __init__(self, x1, y1, x2, y2, **settings):
         super().__init__(x1, y1, x2, y2)
 
@@ -19,6 +22,9 @@ class Attack(col.BoxCollider2):
 
 
 class NormalAttack(Attack):
+    '''
+    This class holds basic characterstics of a regular attack.
+    '''
     def __init__(self, p_center_x, p_center_y, **settings): # p stands for 'player' - Ex: player_x
         # Local is position relative to player or the offset
         settings['peri_lag'] = s.FPS/6
@@ -36,6 +42,9 @@ class NormalAttack(Attack):
         self.set_position(player.collider.center.x+x_offset, player.collider.center.y-self.height+max(self.local_p1.y, self.local_p2.y))
 
 class OrbAttack(Attack):
+    '''
+    Projectile attack specifically used for Arend's character.
+    '''
     def __init__(self, p_center_x, p_center_y, **settings):
         settings['pre_lag'] = 0
         settings['post_lag'] = 0
@@ -50,6 +59,9 @@ class OrbAttack(Attack):
         self.set_position(self.p1.x+self.velocity, self.p1.y)
 
 class VineAttack(Attack):
+    '''
+    Long-ranged melee attack specifically used for Jonah's ability.
+    '''
     def __init__(self, p_center_x, p_center_y, **settings): # p stands for 'player' - Ex: player_x
         # Local is position relative to player or the offset
         settings['peri_lag'] = s.FPS*0.6

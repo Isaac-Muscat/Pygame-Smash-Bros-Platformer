@@ -1,3 +1,4 @@
+# Imports from other modules
 from physics.rigidbody import Rigidbody
 from physics.collider2 import BoxCollider2
 import settings as s
@@ -7,7 +8,20 @@ import physics.vector2 as vec
 
 
 class Player(Rigidbody):
-    def __init__(self, x, y, key_bindings,**settings):
+    '''
+    This class handles the generic makeup of a character/player.
+    This should be used as an abstract class and it should be extended.
+    '''
+    def __init__(self, x, y, key_bindings, **settings):
+        '''
+        Constructor.
+
+        :param x: the starting x postion.
+        :param y: the starting y position.
+        :param key_bindings: the key bindings of the player.
+        :param settings: a dictionary/**kwargs that stores mutable stats and abilities of different players.
+        This should be tuned to balance the character stats.
+        '''
         super().__init__(int(x), int(y), settings.get('mass', 10))
         self.key_bindings = key_bindings
 
@@ -21,6 +35,7 @@ class Player(Rigidbody):
         self.jumps = settings.get('jumps', 4)
         self.jumps_left = self.jumps
 
+        # Basically acts as a stun duration
         self.frames_in_tumble = 0
         self.direction_facing = settings.get('direction_facing', 1)  # 1 for player facing right and -1 for player facing left
         self.grounded_on = None      # Holds obstacle if player is on a ground and None if in the air
@@ -29,10 +44,15 @@ class Player(Rigidbody):
         self.damage_percentage = 0
 
         self.size = (settings.get('width',25), settings.get('height', 50))
+
+        # The hitbox for the player.
         self.collider = BoxCollider2(self.position.x, self.position.y, self.position.x + self.size[0],
                                      self.position.y + self.size[1])
 
+        # The hitbox for the attack if there is one.
         self.attack_collider = None
+
+        # The previous hitbox for the player used for detecting collisions using interpolation.
         self.prev_collider = self.collider.clone()
 
     def draw(self, screen):
@@ -60,6 +80,7 @@ class Player(Rigidbody):
             self.frames_in_tumble -= time * s.FPS / 1000
             self.frames_in_tumble = vec.clamp(self.frames_in_tumble, 0, 100000)
 
+        # Reset the player if out of bounds
         if self.position.y > 1400 or self.position.y < -300 or -300>self.position.x or self.position.x>2400:
             self.position.x = (1000)
             self.position.y = (400)

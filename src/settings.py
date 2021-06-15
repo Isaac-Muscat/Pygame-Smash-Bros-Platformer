@@ -1,7 +1,6 @@
 import pygame
 
-# Variables
-
+# Variables for the config of the game
 DEBUG = False
 FPS = 60
 

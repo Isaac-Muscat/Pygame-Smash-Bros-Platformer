@@ -4,8 +4,9 @@ import gameobjects.players.attacks as a
 import pygame
 import settings as s
 
-
+# See Lucas's character for similar comments.
 class Jonah(Player):
+    # Jonah's stats.
     def __init__(self, x, y, key_bindings, **settings):
         # Hitbox dimensions
         settings['width']=45
