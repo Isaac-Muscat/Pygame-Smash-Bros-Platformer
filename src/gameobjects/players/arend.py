@@ -4,20 +4,19 @@ import gameobjects.players.attacks as a
 import pygame
 import settings as s
 
-# See Lucas's player for detailed comments.
-class Isaac(Player):
+# See Luca's character for detalied comments
+class Arend(Player):
     def __init__(self, x, y, key_bindings, **settings):
-        settings['width']=30
-        settings['height']=100
-        settings['run_force'] = vec.Vector2(0.5, 0)
-        settings['max_runspeed'] = 1.4
-        settings['jumps'] = 4
+        settings['width']=25
+        settings['height']=90
+        settings['max_fallspeed'] = 1.4
         super().__init__(x, y, key_bindings, **settings)
-        self.sprites = {'jump':pygame.image.load("gameobjects/players/sprites/Isaac/I_jump.png"),
-                        'walk':[pygame.image.load("gameobjects/players/sprites/Isaac/I_walk.png"), pygame.image.load("gameobjects/players/sprites/Isaac/I_stand.png")],
-                        'stand':pygame.image.load("gameobjects/players/sprites/Isaac/I_stand.png"),
-                        'forward_tilt':pygame.image.load("gameobjects/players/sprites/Isaac/I_latk.png")}
-        self.invis = False
+        self.sprites = {'jump':pygame.image.load("gameobjects/players/sprites/Arend/a_Jump.png"),
+                        'walk':[pygame.image.load("gameobjects/players/sprites/Arend/a_Walk.png"), pygame.image.load("gameobjects/players/sprites/Arend/a_Stand.png")],
+                        'stand':pygame.image.load("gameobjects/players/sprites/Arend/a_Stand.png"),
+                        'forward_tilt':pygame.image.load("gameobjects/players/sprites/Arend/a_latk.png"),
+                        'forward_heavy':pygame.image.load("gameobjects/players/sprites/Arend/musicNote.png")}
+
         self.frame_count = 0
         self.time_between_frames = 10
 
@@ -36,7 +35,11 @@ class Isaac(Player):
                 self.attack_collider = self.get_normal_attack()
 
             if key == self.key_bindings['heavy'] and self.frames_in_tumble == 0 and self.attack_collider is None:
-                self.invis = not self.invis
+                offset_1 = vec.Vector2(-20, -self.collider.height * 0.3)
+                offset_2 = vec.Vector2(2 * self.collider.width, +self.collider.height * 0.1)
+                self.attack_collider = a.OrbAttack(self.collider.center.x, self.collider.center.y, local_p1=offset_1,
+                                                    local_p2=offset_2, velocity=self.direction_facing*s.FPS*0.6,
+                                                   percent_damage=0.03, stun_duration=s.FPS*0.05, knockback_force=5)
 
         if keys[self.key_bindings['left']] and self.velocity.x > -self.max_runspeed and self.frames_in_tumble == 0 and self.attack_collider is None:
             if self.velocity.x > 0 and self.grounded_on:
@@ -55,11 +58,10 @@ class Isaac(Player):
             self.direction_facing = 1
 
     def get_forward_tilt_attack(self):
-        offset_1 = vec.Vector2(0, -self.collider.height*0.7)
+        offset_1 = vec.Vector2(0, -self.collider.height*0.5)
         offset_2 = vec.Vector2(3*self.collider.width, -self.collider.height*0.1)
         return a.NormalAttack(self.collider.center.x, self.collider.center.y, local_p1=offset_1, local_p2=offset_2,
-                              knockback_force=7, knockback_direction=vec.Vector2(1, -1.5),
-                              peri_lag=s.FPS*0.3, post_lag=0, percent_damage=0.15)
+                              knockback_force=7, knockback_direction=vec.Vector2(1,-1))
 
     # Put all logic for normal attacks here like tilt and arial attacks
     def get_normal_attack(self):
@@ -84,26 +86,29 @@ class Isaac(Player):
     def draw(self, screen):
         if s.DEBUG: self.collider.draw_collider(screen, s.RED)
         if self.attack_collider is not None:
-            self.image = pygame.transform.scale(self.sprites['forward_tilt'], (70, 140))
+            self.image = self.sprites['forward_tilt']
+
+            if type(self.attack_collider) is a.OrbAttack:
+                attack = pygame.transform.scale(self.sprites['forward_heavy'], (50, 50))
+                screen.blit(attack, [self.attack_collider.p1.x, self.attack_collider.p1.y])
 
         # In the air
         elif not self.grounded_on:
             self.image = self.sprites['jump']
-            self.image = pygame.transform.scale(self.image, (70, 140))
         # Walking
         elif round(self.velocity.x, 1) != 0:
             self.image = self.sprites['walk'][self.frame_count//self.time_between_frames]
-            self.image = pygame.transform.scale(self.image, (70, 140))
             self.frame_count += 1
             if self.frame_count >= self.time_between_frames*len(self.sprites['walk']):
                 self.frame_count = 0
         # Stationary
         else:
             self.image = self.sprites['stand']
-            self.image = pygame.transform.scale(self.image, (70, 140))
+
+        self.image = pygame.transform.scale(self.image, (90, 150))
         # Change direction of sprites
         if self.direction_facing == -1:
             self.image = pygame.transform.flip(self.image, True, False)
-        if self.invis is False:
-            screen.blit(self.image, [self.position.x-20, self.position.y-25])
+        screen.blit(self.image, [self.position.x-51, self.position.y-50])
+
 

@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="d43dd825-ce83-4bc8-bc8d-ab56343a5601" name="Default Changelist" comment="Balance changes">
+      <changelist_data name="Isaac-Muscat" email="isaac.wieting.muscat@gmail.com" />
+      <change beforePath="$PROJECT_DIR$/.idea/runConfigurations/main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/runConfigurations/main.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gameobjects/obstacles/obstacles.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/gameobjects/obstacles/obstacles.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gameobjects/obstacles/platform.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/gameobjects/obstacles/platform.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gameobjects/obstacles/wall.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/gameobjects/obstacles/wall.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gameobjects/players/arend.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/gameobjects/players/arend.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gameobjects/players/attacks.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/gameobjects/players/attacks.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gameobjects/players/isaac.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/gameobjects/players/isaac.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gameobjects/players/jonah.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/gameobjects/players/jonah.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gameobjects/players/lucas.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/gameobjects/players/lucas.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gameobjects/players/player.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/gameobjects/players/player.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/physics/collider2.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/physics/collider2.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/physics/rigidbody.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/physics/rigidbody.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/physics/vector2.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/physics/vector2.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/scenes.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/scenes.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/settings.py" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <favorite-branches>
+      <branch-storage>
+        <map>
+          <entry type="LOCAL">
+            <value>
+              <list>
+                <branch-info repo="$PROJECT_DIR$" source="Isaac" />
+              </list>
+            </value>
+          </entry>
+        </map>
+      </branch-storage>
+    </favorite-branches>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RESET_MODE" value="HARD" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
+  <component name="ProjectId" id="1tcvizRIJ68HzQpizMtHimapfCZ" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="restartRequiresConfirmation" value="false" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/gameobjects/players" />
+      <recent name="$PROJECT_DIR$/src" />
+    </key>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="d43dd825-ce83-4bc8-bc8d-ab56343a5601" name="Default Changelist" comment="" />
+      <created>1623081324233</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1623081324233</updated>
+      <workItem from="1623243773650" duration="1912000" />
+      <workItem from="1623252790094" duration="1880000" />
+      <workItem from="1623429990053" duration="15000" />
+      <workItem from="1623602428626" duration="610000" />
+      <workItem from="1623626238477" duration="119000" />
+      <workItem from="1623715951660" duration="3331000" />
+    </task>
+    <task id="LOCAL-00001" summary="committed">
+      <created>1623117037934</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1623117037934</updated>
+    </task>
+    <task id="LOCAL-00002" summary="newest build with my imports">
+      <created>1623117588450</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1623117588450</updated>
+    </task>
+    <task id="LOCAL-00003" summary="newest build with my imports">
+      <created>1623635043121</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1623635043121</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="origin/Jonah2" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="committed" />
+    <MESSAGE value="newest build with my imports" />
+    <option name="LAST_COMMIT_MESSAGE" value="newest build with my imports" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/Pygame_Smash_Bros_Platformer$main.coverage" NAME="main Coverage Results" MODIFIED="1623695096404" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
+  </component>
+</project>
